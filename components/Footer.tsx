@@ -25,9 +25,9 @@ export default function Footer() {
       </div>
       <div className="flex space-x-4 pb-4 sm:pb-0">
         <Link
-          href="https://twitter.com/nutlope"
+          href="https://twitter.com/whoiskatrin"
           className="group"
-          aria-label="TaxPal on Twitter"
+          aria-label="Kate on Twitter"
         >
           <svg
             aria-hidden="true"
@@ -37,9 +37,9 @@ export default function Footer() {
           </svg>
         </Link>
         <Link
-          href="https://github.com/Nutlope/twitterbio"
+          href="https://github.com/whoiskatrin/sql-translator"
           className="group"
-          aria-label="TaxPal on GitHub"
+          aria-label="SQL Translator on GitHub"
         >
           <svg
             aria-hidden="true"

@@ -1,18 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
-  async redirects() {
-    return [
-      {
-        source: "/github",
-        destination: "https://github.com/Nutlope/twitterbio",
-        permanent: false,
-      },
-      {
-        source: "/deploy",
-        destination: "https://vercel.com/templates/next.js/twitter-bio",
-        permanent: false,
-      },
-    ];
-  },
+  env: {
+    OPENAI_API_KEY: "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"},
 };
