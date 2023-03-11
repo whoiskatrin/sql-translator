@@ -1,4 +1,5 @@
-const apiKey = "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";
+const apiKey = process.env.OPENAI_API_KEY;
+
 
 async function translate(query) {
   const response = await fetch("https://api.openai.com/v1/completions", {

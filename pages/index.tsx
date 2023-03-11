@@ -55,16 +55,17 @@ export default function Home() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="inputText"
               rows={3}
+              placeholder="e.g. show me all the cars that are red"
               value={inputText}
               onChange={handleInputChange}
               required
             ></textarea>
+
           </div>
           <button
             type="submit"
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
-              isLoading && "opacity-50 cursor-not-allowed"
-            }`}
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isLoading && "opacity-50 cursor-not-allowed"
+              }`}
             disabled={isLoading}
           >
             {isLoading ? "Translating..." : "Translate to SQL"}
