@@ -1,27 +1,46 @@
-# [TwitterBio.com](https://www.twitterbio.com/)
+# SQL Translator
 
-This project generates Twitter bios for you using AI.
+SQL Translator is a tool for converting natural language queries into SQL code using artificial intelligence. This project is 100% free and open source.
 
-[![Twitter Bio Generator](./public/screenshot.png)](https://www.twitterbio.com)
+![Screenshot of SQL Translator](./public/screenshot.png)
 
-## How it works
+## Installation
 
-This project uses the [ChatGPT API](https://openai.com/api/) and [Vercel Edge functions](https://vercel.com/features/edge-functions) with streaming. It constructs a prompt based on the form and user input, sends it to the chatGPT API via a Vercel Edge function, then streams the response back to the application.
+1. Clone the repository:
 
-If you'd like to see how I built this, check out the [video](https://youtu.be/JcE-1xzQTE0) or [blog post](https://vercel.com/blog/gpt-3-app-next-js-vercel-edge-functions).
+    ```bash
+    git clone https://github.com/whoiskatrin/sql-translator.git
+    ```
 
-## Running Locally
+2. Install the required packages:
 
-After cloning the repo, go to [OpenAI](https://beta.openai.com/account/api-keys) to make an account and put your API key in a file called `.env`.
+    ```bash
+    cd sql-translator
+    npm install
+    ```
 
-Then, run the application in the command line and it will be available at `http://localhost:3000`.
+3. Start the development server:
 
-```bash
-npm run dev
-```
+    ```bash
+    npm start
+    ```
 
-## One-Click Deploy
+## Usage
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=vercel-examples):
+Once the development server is running, you can access the application by navigating to `http://localhost:3000` in your web browser.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Nutlope/twitterbio&env=OPENAI_API_KEY&project-name=twitter-bio-generator&repo-name=twitterbio)
+Enter a natural language query in the input box and click "Translate" to generate the corresponding SQL code. The generated SQL code will be displayed in the output box.
+
+## Contributing
+
+Contributions to SQL Translator are welcome and encouraged! To contribute, please follow these steps:
+
+1. Fork the repository
+2. Create a new branch
+3. Make your changes
+4. Push your changes to your fork
+5. Submit a pull request
+
+## License
+
+SQL Translator is released under the MIT License.
