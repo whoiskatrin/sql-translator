@@ -3,7 +3,7 @@ import Head from "next/head";
 import translate from "../src/sqlTranslator";
 import Github from "../components/GitHub";
 
-export default function Home(props) {
+export default function Home(props: { apiKey: any; }) {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +12,7 @@ export default function Home(props) {
     setInputText(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     setIsLoading(true);
     try {
