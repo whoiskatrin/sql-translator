@@ -2,5 +2,5 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    OPENAI_API_KEY: "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"},
+    OPENAI_API_KEY: "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"},
 };
