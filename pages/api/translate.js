@@ -1,6 +1,8 @@
-import fetch from "isomorphic-unfetch";
+const fetch = require("node-fetch");
 
-const translate = async (query, apiKey) => {
+export default async function handler(req, res) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  const { query } = req.body;
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
@@ -22,10 +24,9 @@ const translate = async (query, apiKey) => {
 
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.error || "Error translating to SQL.");
+    res.status(500).json({ error: data.error || "Error translating to SQL." });
+    return;
   }
 
-  return data.choices[0].text.trim();
-};
-
-export default translate;
+  res.status(200).json({ sql: data.choices[0].text.trim() });
+}

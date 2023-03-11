@@ -3,7 +3,7 @@ import Head from "next/head";
 import translate from "../src/sqlTranslator";
 import Github from "../components/GitHub";
 
-export default function Home() {
+export default function Home(props) {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -12,11 +12,11 @@ export default function Home() {
     setInputText(event.target.value);
   };
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     try {
-      const result = await translate(inputText);
+      const result = await translate(inputText, props.apiKey);
       setOutputText(result);
     } catch (error) {
       console.log(error);
@@ -24,7 +24,7 @@ export default function Home() {
     }
     setIsLoading(false);
   };
-
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <Head>
@@ -90,3 +90,9 @@ export default function Home() {
     </div>
   );
 }
+
+export async function getServerSideProps() {
+  const apiKey = process.env.OPENAI_API_KEY;
+  return { props: { apiKey } };
+}
+
