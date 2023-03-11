@@ -8,11 +8,11 @@ export default function Home() {
   const [outputText, setOutputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputText(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     setIsLoading(true);
     try {
