@@ -1,6 +1,6 @@
 import fetch from "isomorphic-unfetch";
 
-const translate = async (query, apiKey) => {
+const translateToSQL = async (query, apiKey) => {
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
@@ -29,4 +29,4 @@ const translate = async (query, apiKey) => {
   return data.choices[0].text.trim();
 };
 
-export default translate;
+export default translateToSQL;
