@@ -1,8 +1,9 @@
-# SQL Translator
+# SQL Translator (SQL to Natural Language and Natural Language to SQL)
 
 SQL Translator is a tool for converting natural language queries into SQL code using artificial intelligence. This project is 100% free and open source.
 
 ![Screenshot of SQL Translator](./public/screenshot.png)
+
 
 ## Installation
 
