@@ -49,15 +49,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="max-w-lg mx-auto my-12 px-4">
-      <a
-          className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-600 text-white px-5 py-2 text-sm shadow-md hover:bg-blue-500 bg-blue-600 font-medium transition"
-          href="https://github.com/whoiskatrin/sql-translator"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Github />
-          <p>Star on GitHub</p>
-        </a>
+        <div className="flex items-center justify-center">
+          <a
+            className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-600 text-white px-5 py-2 text-sm shadow-md hover:bg-blue-500 bg-blue-600 font-medium transition"
+            href="https://github.com/whoiskatrin/sql-translator"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github />
+            <p>Star on GitHub</p>
+          </a>
+        </div>
+
         <h1 className="text-3xl font-bold text-center mb-8">
           {isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}
         </h1>
