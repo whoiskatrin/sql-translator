@@ -4,6 +4,7 @@ import Github from "../components/GitHub";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
+import Footer from "../components/Footer";
 
 
 export default function Home() {
@@ -112,6 +113,7 @@ export default function Home() {
         )}
       </main>
       <Analytics />
+      <Footer />
     </div >
   );
 }
