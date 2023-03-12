@@ -3,6 +3,7 @@ import Head from "next/head";
 import Github from "../components/GitHub";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Analytics } from "@vercel/analytics/react";
 
 
 export default function Home() {
@@ -110,6 +111,7 @@ export default function Home() {
           </div>
         )}
       </main>
+      <Analytics />
     </div >
   );
 }
