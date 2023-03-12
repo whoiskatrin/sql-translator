@@ -59,7 +59,7 @@ export default function Home(props: { apiKey: any; }) {
               value={inputText}
               onChange={handleInputChange}
               required
-              autofocus
+              autoFocus
             ></textarea>
 
           </div>
