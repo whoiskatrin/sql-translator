@@ -13,6 +13,7 @@ export default function Home() {
   const [outputText, setOutputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isHumanToSql, setIsHumanToSql] = useState(true);
+  const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
 
 
   const handleInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -107,11 +108,23 @@ export default function Home() {
             <label htmlFor="outputText" className="block font-bold mb-2">
               Output Text
             </label>
+            <div className="flex justify-between mb-4">
+              {isHumanToSql && (
+                <button
+                  type="button"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => setIsOutputTextUpperCase(!isOutputTextUpperCase)}
+                >
+                  {isOutputTextUpperCase ? "lowercase" : "UPPERCASE"}
+                </button>
+              )}
+            </div>
             <textarea
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="outputText"
               rows={3}
-              value={outputText}
+              style={{ height: "6rem", overflowY: "auto" }}
+              value={isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
               readOnly
             ></textarea>
           </div>
