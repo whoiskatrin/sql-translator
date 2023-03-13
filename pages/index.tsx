@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter'));
 import { vs } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
@@ -10,20 +10,22 @@ import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
 import ThemeButton from '../components/ThemeButton';
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-interface RequestBody {
-  inputText: string;
-  tableSchema?: string;
-}
+import { useTranslate } from '../hooks/useTranslate';
+import { toast } from 'react-hot-toast';
 
 export default function Home() {
+  const {translate, translating, outputText, setOutputText, translationError} = useTranslate()
   const [inputText, setInputText] = useState("");
-  const [outputText, setOutputText] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isHumanToSql, setIsHumanToSql] = useState(true);
   const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [tableSchema, setTableSchema] = useState("");
   const [showTableSchema, setShowTableSchema] = useState(false);
+
+  useEffect(() => {
+    if (translationError)
+    toast.error(translationError)
+  }, [translationError])
 
   const isValidTableSchema = (text: any) => {
     console.log(text)
@@ -59,43 +61,26 @@ export default function Home() {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    setIsLoading(true);
+
     try {
       // Validate input syntax
       if (!isHumanToSql) {
         const pattern = /^\s*(select|insert|update|delete|create|alter|drop|truncate|grant|revoke|use|begin|commit|rollback)\s/i;
         const regex = new RegExp(pattern);
         if (!regex.test(inputText)) {
-          setOutputText("Invalid SQL syntax.");
-          setIsLoading(false);
+          toast.error("Invalid SQL syntax.");
           return;
         }
       }
       if (showTableSchema && !isValidTableSchema(tableSchema)) {
-        setOutputText("Invalid table schema.");
-        setIsLoading(false);
+        toast.error("Invalid table schema.");
         return;
       }
-      const requestBody: RequestBody = { inputText };
-      if (tableSchema !== "") {
-        requestBody.tableSchema = tableSchema;
-      }
-      const response = await fetch(`/api/${isHumanToSql ? "translate" : "sql-to-human"}`, {
-        method: "POST",
-        body: JSON.stringify(requestBody),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setOutputText(data.outputText);
-      } else {
-        setOutputText(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
-      }
+      translate({inputText, tableSchema, isHumanToSql})
     } catch (error) {
       console.log(error);
-      setOutputText(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
+      toast.error(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
     }
-    setIsLoading(false);
   };
   
 
@@ -226,11 +211,11 @@ export default function Home() {
 
           <button
             type="submit"
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${isLoading && "opacity-50 cursor-not-allowed"
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${translating && "opacity-50 cursor-not-allowed"
               }`}
-            disabled={isLoading}
+            disabled={translating}
           >
-            {isLoading ? "Translating..." : `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`}
+            {translating ? "Translating..." : `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`}
           </button>
         </form>
 
