@@ -10,7 +10,10 @@ import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
 import ThemeButton from '../components/ThemeButton';
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-
+interface RequestBody {
+  inputText: string;
+  tableSchema?: string;
+}
 
 export default function Home() {
   const [inputText, setInputText] = useState("");
@@ -19,12 +22,24 @@ export default function Home() {
   const [isHumanToSql, setIsHumanToSql] = useState(true);
   const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [tableSchema, setTableSchema] = useState("");
+  const [showTableSchema, setShowTableSchema] = useState(false);
 
+  const isValidTableSchema = (text: any) => {
+    console.log(text)
+    const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
+    const regex = new RegExp(pattern);
+    return regex.test(text);
+
+  };
 
   const handleInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputText(event.target.value);
-
+    if (!showTableSchema) {
+      setTableSchema("");
+    }
   };
+  
 
   const handleCopy = () => {
     navigator.clipboard.writeText(outputText);
@@ -33,11 +48,12 @@ export default function Home() {
       setIsCopied(false);
     }, 3000);
   };
-  
+
 
   const handleClear = () => {
     setInputText("");
     setOutputText("");
+    setTableSchema("");
   };
 
 
@@ -45,14 +61,32 @@ export default function Home() {
     event.preventDefault();
     setIsLoading(true);
     try {
+      // Validate input syntax
+      if (!isHumanToSql) {
+        const pattern = /^\s*(select|insert|update|delete|create|alter|drop|truncate|grant|revoke|use|begin|commit|rollback)\s/i;
+        const regex = new RegExp(pattern);
+        if (!regex.test(inputText)) {
+          setOutputText("Invalid SQL syntax.");
+          setIsLoading(false);
+          return;
+        }
+      }
+      if (showTableSchema && !isValidTableSchema(tableSchema)) {
+        setOutputText("Invalid table schema.");
+        setIsLoading(false);
+        return;
+      }
+      const requestBody: RequestBody = { inputText };
+      if (tableSchema !== "") {
+        requestBody.tableSchema = tableSchema;
+      }
       const response = await fetch(`/api/${isHumanToSql ? "translate" : "sql-to-human"}`, {
         method: "POST",
-        body: JSON.stringify({ inputText }),
+        body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
       });
       if (response.ok) {
         const data = await response.json();
-        console.log("data:", data); // Add this line
         setOutputText(data.outputText);
       } else {
         setOutputText(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
@@ -63,6 +97,7 @@ export default function Home() {
     }
     setIsLoading(false);
   };
+  
 
 
   return (
@@ -102,9 +137,71 @@ export default function Home() {
               value={inputText}
               onChange={handleInputChange}
               required
-              autoFocus
             />
           </div>
+          {tableSchema && showTableSchema && (
+            <div className="mt-4">
+              <h2 className="font-bold text-lg mb-2">Table Schema</h2>
+              <SyntaxHighlighter
+                language="sql"
+                style={vs}
+                wrapLines={true}
+                showLineNumbers={true}
+                lineNumberStyle={{ color: "#ccc" }}
+                customStyle={{
+                  maxHeight: "none",
+                  height: "auto",
+                  overflow: "visible",
+                  wordWrap: "break-word",
+                }}
+                lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+              >
+                {tableSchema}
+              </SyntaxHighlighter>
+            </div>
+          )}
+
+          {isHumanToSql && (
+            <div className="flex items-center mb-4">
+              <input
+                id="showTableSchema"
+                type="checkbox"
+                checked={showTableSchema}
+                onChange={() => {
+                  setShowTableSchema(!showTableSchema);
+                  if (!showTableSchema) {
+                    setTableSchema("");
+                  }
+                }}
+                className="mr-2"
+              />
+              <label htmlFor="showTableSchema">Provide Table Schema</label>
+            </div>
+          )}
+
+
+          {isHumanToSql && showTableSchema && (
+            <div className="flex flex-col mb-4">
+              <label htmlFor="tableSchema" className="block font-bold mb-2">
+                Table Schema (optional)
+              </label>
+              <textarea
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="tableSchema"
+                rows={3}
+                placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"
+                value={tableSchema}
+                autoFocus
+                onChange={(event) => setTableSchema(event.target.value)}
+                onBlur={() => {
+                  if (!showTableSchema) {
+                    setTableSchema("");
+                  }
+                }}
+              />
+            </div>
+          )}
+
           <div className="flex justify-between">
             <div className="flex items-center">
 
@@ -121,10 +218,6 @@ export default function Home() {
               />
             </div>
           </div>
-
-
-
-
 
           <button
             type="submit"
