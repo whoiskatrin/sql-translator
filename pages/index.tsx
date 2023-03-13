@@ -12,6 +12,7 @@ import ThemeButton from '../components/ThemeButton';
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useTranslate } from '../hooks/useTranslate';
 import { toast } from 'react-hot-toast';
+import LoadingDots from '../components/LoadingDots';
 
 export default function Home() {
   const {translate, translating, outputText, setOutputText, translationError} = useTranslate()
@@ -211,11 +212,17 @@ export default function Home() {
 
           <button
             type="submit"
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${translating && "opacity-50 cursor-not-allowed"
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${translating && "opacity-50 pointer-events-none"
               }`}
             disabled={translating}
           >
-            {translating ? "Translating..." : `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`}
+            {translating ? (
+              <>
+                Translating
+                <LoadingDots color='white' />
+              </>
+              
+              ) : `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`}
           </button>
         </form>
 
