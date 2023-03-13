@@ -4,6 +4,18 @@ SQL Translator is a tool for converting natural language queries into SQL code u
 
 <img src="https://github.com/whoiskatrin/sql-translator/blob/main/beta.png" width="600" />
 
+## Features
+
+- dark more
+- lowercase/uppercase toggle
+- copy to clipboard
+- SQL syntax highlighting
+- schema awareness (beta)
+
+## Roadmap
+
+- functions and procedures
+- support for languages other than English
 
 ## Installation
 
