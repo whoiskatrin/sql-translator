@@ -4,6 +4,13 @@ import {
   ReconnectInterval,
 } from "eventsource-parser";
 
+export type ChatGPTModel =
+  | "gpt-3.5-turbo"
+  | "text-davinci-003"
+  | "text-curie-001"
+  | "text-babbage-001"
+  | "text-ada-001";
+
 export type ChatGPTAgent = "user" | "system";
 
 export interface ChatGPTMessage {
@@ -12,7 +19,7 @@ export interface ChatGPTMessage {
 }
 
 export interface OpenAIStreamPayload {
-  model: string;
+  model: ChatGPTModel;
   messages: ChatGPTMessage[];
   temperature: number;
   top_p: number;
