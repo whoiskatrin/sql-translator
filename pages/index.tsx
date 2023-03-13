@@ -71,7 +71,7 @@ export default function Home() {
         <form onSubmit={(event) => handleSubmit(event)} className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="flex flex-col mb-4">
             <label htmlFor="inputText" className="block font-bold mb-2">
-              {isHumanToSql ? "Input Text" : "SQL Query"}
+              {isHumanToSql ? "Human Language Query" : "SQL Query"}
             </label>
             <textarea
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -106,7 +106,7 @@ export default function Home() {
         {outputText && (
           <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <label htmlFor="outputText" className="block font-bold mb-2">
-              Output Text
+            {isHumanToSql ? "SQL Query" : "Human Language Query"}
             </label>
             <div className="flex justify-between mb-4">
               {isHumanToSql && (
