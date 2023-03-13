@@ -5,7 +5,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
   if (tableSchema) {
     prompt = `Translate this natural language query into SQL:\n\n"${query}"\n\nUse this table schema:\n\n${tableSchema}\n\n${prompt}`;
   }
-  console.log(prompt)
+  console.log(prompt);
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
@@ -27,7 +27,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
 
   const data = await response.json();
   if (!response.ok) {
-    console.log(response)
+    console.log(response);
     throw new Error(data.error || "Error translating to SQL.");
   }
 
