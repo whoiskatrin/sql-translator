@@ -9,5 +9,12 @@
 
 .switch-icon {
     margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.clear-button svg {
+    height: 30px;
+    width: 30px;
   }
+  
   

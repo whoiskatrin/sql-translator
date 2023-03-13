@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import dynamic from 'next/dynamic';
+const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter'));
+import { vs } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import Head from "next/head";
 import Github from "../components/GitHub";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
@@ -6,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
 import ThemeButton from '../components/ThemeButton';
+import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function Home() {
@@ -14,12 +18,28 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [isHumanToSql, setIsHumanToSql] = useState(true);
   const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
 
   const handleInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setInputText(event.target.value);
 
   };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(outputText);
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
+  };
+  
+
+  const handleClear = () => {
+    setInputText("");
+    setOutputText("");
+  };
+
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -32,6 +52,7 @@ export default function Home() {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log("data:", data); // Add this line
         setOutputText(data.outputText);
       } else {
         setOutputText(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
@@ -82,15 +103,28 @@ export default function Home() {
               onChange={handleInputChange}
               required
               autoFocus
-            ></textarea>
+            />
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center">
+
+              <FontAwesomeIcon
+                onClick={handleClear}
+                icon={faTrashAlt}
+                className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4" />
+
+              <FontAwesomeIcon
+                icon={faExchangeAlt}
+                className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer transition-transform duration-300 ${isHumanToSql ? "transform rotate-90" : ""
+                  } icon-size-30 switch-icon w-4 h-4`}
+                onClick={() => setIsHumanToSql(!isHumanToSql)}
+              />
+            </div>
           </div>
 
-          <FontAwesomeIcon
-            icon={faExchangeAlt}
-            className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer transition-transform duration-300 ${isHumanToSql ? "transform rotate-90" : ""
-              } icon-size-30 switch-icon`}
-            onClick={() => setIsHumanToSql(!isHumanToSql)}
-          />
+
+
+
 
           <button
             type="submit"
@@ -106,7 +140,7 @@ export default function Home() {
         {outputText && (
           <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <label htmlFor="outputText" className="block font-bold mb-2">
-            {isHumanToSql ? "SQL Query" : "Human Language Query"}
+              {isHumanToSql ? "SQL Query" : "Human Language Query"}
             </label>
             <div className="flex justify-between mb-4">
               {isHumanToSql && (
@@ -119,14 +153,25 @@ export default function Home() {
                 </button>
               )}
             </div>
+            <SyntaxHighlighter
+              language='sql'
+              style={vs}
+              wrapLines={true}
+              showLineNumbers={true}
+              lineNumberStyle={{ color: '#ccc' }}
+              customStyle={{ maxHeight: 'none', height: 'auto', overflow: 'visible', wordWrap: 'break-word' }}
+              lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
+            >
+              {isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
+            </SyntaxHighlighter>
+            <FontAwesomeIcon onClick={handleCopy} icon={faCopy} className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4 mr-2" />
+            {isCopied && <p className="text-blue-500 text-sm">Copied to clipboard!</p>}
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="hidden"
               id="outputText"
-              rows={3}
-              style={{ height: "6rem", overflowY: "auto" }}
               value={isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
               readOnly
-            ></textarea>
+            />
           </div>
         )}
       </main>
