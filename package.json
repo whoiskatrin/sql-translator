@@ -17,6 +17,7 @@
     "eventsource-parser": "^0.0.5",
     "isomorphic-unfetch": "^4.0.2",
     "next": "latest",
+    "next-themes": "^0.2.1",
     "node-fetch": "^3.3.1",
     "openai": "^3.2.1",
     "react": "18.2.0",

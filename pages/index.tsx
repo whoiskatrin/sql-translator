@@ -5,6 +5,7 @@ import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
+import ThemeButton from '../components/ThemeButton';
 
 
 export default function Home() {
@@ -49,6 +50,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="max-w-lg mx-auto my-12 px-4">
+        <ThemeButton className='absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition' />
         <div className="flex items-center justify-center">
           <a
             className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-600 text-white px-5 py-2 text-sm shadow-md hover:bg-blue-500 bg-blue-600 font-medium transition"
@@ -61,17 +63,17 @@ export default function Home() {
           </a>
         </div>
 
-        <h1 className="text-3xl font-bold text-center mb-8">
+        <h1 className="text-3xl font-bold text-center mt-4 mb-8">
           {isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}
         </h1>
 
-        <form onSubmit={(event) => handleSubmit(event)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form onSubmit={(event) => handleSubmit(event)} className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="flex flex-col mb-4">
-            <label htmlFor="inputText" className="block text-gray-700 font-bold mb-2">
+            <label htmlFor="inputText" className="block font-bold mb-2">
               {isHumanToSql ? "Input Text" : "SQL Query"}
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="inputText"
               rows={3}
               placeholder={isHumanToSql ? "e.g. show me all the cars that are red" : "SELECT * FROM cars WHERE color = 'red'"}
@@ -84,7 +86,7 @@ export default function Home() {
 
           <FontAwesomeIcon
             icon={faExchangeAlt}
-            className={`text-gray-700 font-bold ml-2 cursor-pointer transition-transform duration-300 ${isHumanToSql ? "transform rotate-90" : ""
+            className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer transition-transform duration-300 ${isHumanToSql ? "transform rotate-90" : ""
               } icon-size-30 switch-icon`}
             onClick={() => setIsHumanToSql(!isHumanToSql)}
           />
@@ -101,12 +103,12 @@ export default function Home() {
 
 
         {outputText && (
-          <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <label htmlFor="outputText" className="block text-gray-700 font-bold mb-2">
+          <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <label htmlFor="outputText" className="block font-bold mb-2">
               Output Text
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="outputText"
               rows={3}
               value={outputText}
