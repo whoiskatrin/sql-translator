@@ -136,6 +136,11 @@ export default function Home() {
               placeholder={isHumanToSql ? "e.g. show me all the cars that are red" : "SELECT * FROM cars WHERE color = 'red'"}
               value={inputText}
               onChange={handleInputChange}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && event.metaKey === true) {
+                  handleSubmit(event);
+                }
+              }}
               required
             />
           </div>
