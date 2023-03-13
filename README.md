@@ -21,8 +21,14 @@ SQL Translator is a tool for converting natural language queries into SQL code u
     cd sql-translator
     npm install
     ```
+3. Input your OPENAI API key in the .env file, you can get your API key [here](https://beta.openai.com/account/api-keys):
 
-3. Start the development server:
+
+    ```bash
+    OPENAI_API_KEY=$YOUR_API_KEY
+    ```
+
+4. Start the development server:
 
     ```bash
     npm start
