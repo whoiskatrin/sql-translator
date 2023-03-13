@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
-const SyntaxHighlighter = dynamic(() => import("react-syntax-highlighter"));
-import { vs } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import dynamic from 'next/dynamic';
+const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter'));
+import { vs } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import Head from "next/head";
 import Github from "../components/GitHub";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
-import ThemeButton from "../components/ThemeButton";
+import ThemeButton from '../components/ThemeButton';
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 interface RequestBody {
   inputText: string;
@@ -20,17 +20,17 @@ export default function Home() {
   const [outputText, setOutputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isHumanToSql, setIsHumanToSql] = useState(true);
-  const [isOutputTextUpperCase, setIsOutputTextUpperCase] =
-    useState("DefaultCase");
+  const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [tableSchema, setTableSchema] = useState("");
   const [showTableSchema, setShowTableSchema] = useState(false);
 
   const isValidTableSchema = (text: any) => {
-    console.log(text);
+    console.log(text)
     const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
     const regex = new RegExp(pattern);
     return regex.test(text);
+
   };
 
   const handleInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -39,7 +39,7 @@ export default function Home() {
       setTableSchema("");
     }
   };
-
+  
 
   const handleCopy = () => {
     navigator.clipboard.writeText(outputText);
@@ -49,11 +49,13 @@ export default function Home() {
     }, 3000);
   };
 
+
   const handleClear = () => {
     setInputText("");
     setOutputText("");
     setTableSchema("");
   };
+
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -95,7 +97,7 @@ export default function Home() {
     }
     setIsLoading(false);
   };
-
+  
 
 
   return (
@@ -182,6 +184,7 @@ export default function Home() {
             </div>
           )}
 
+
           {isHumanToSql && showTableSchema && (
             <div className="flex flex-col mb-4">
               <label htmlFor="tableSchema" className="block font-bold mb-2">
@@ -206,6 +209,7 @@ export default function Home() {
 
           <div className="flex justify-between">
             <div className="flex items-center">
+
               <FontAwesomeIcon
                 onClick={handleClear}
                 icon={faTrashAlt}
@@ -230,6 +234,7 @@ export default function Home() {
           </button>
         </form>
 
+
         {outputText && (
           <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <label htmlFor="outputText" className="block font-bold mb-2">
@@ -240,32 +245,14 @@ export default function Home() {
                 <button
                   type="button"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setIsOutputTextUpperCase("UpperCase")}
+                  onClick={() => setIsOutputTextUpperCase(!isOutputTextUpperCase)}
                 >
-                  {"UPPERCASE"}
-                </button>
-              )}
-              {isHumanToSql && (
-                <button
-                  type="button"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setIsOutputTextUpperCase("LowerCase")}
-                >
-                  {"lowercase"}
-                </button>
-              )}
-              {isHumanToSql && (
-                <button
-                  type="button"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setIsOutputTextUpperCase("DefaultCase")}
-                >
-                  {"Default Case"}
+                  {isOutputTextUpperCase ? "lowercase" : "UPPERCASE"}
                 </button>
               )}
             </div>
             <SyntaxHighlighter
-              language="sql"
+              language='sql'
               style={vs}
               wrapLines={true}
               showLineNumbers={true}
@@ -273,11 +260,7 @@ export default function Home() {
               customStyle={{ maxHeight: 'none', height: 'auto', overflow: 'visible', wordWrap: 'break-word' }}
               lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
             >
-              {isOutputTextUpperCase === "UpperCase"
-                ? outputText.toUpperCase()
-                : isOutputTextUpperCase === "LowerCase"
-                ? outputText.toLowerCase()
-                : outputText}
+              {isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
             </SyntaxHighlighter>
             <FontAwesomeIcon onClick={handleCopy} icon={faCopy} className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4 mr-2" />
             {isCopied && <p className="text-blue-500 text-sm">Copied to clipboard!</p>}
