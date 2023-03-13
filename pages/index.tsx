@@ -112,16 +112,17 @@ export default function Home() {
               value={outputText}
               readOnly
             ></textarea>
-            <button type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => setOutputText(outputText.toUpperCase())}
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setOutputText(outputText.toUpperCase())}
             >
               Upper
             </button>
             <button
-            type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
-            onClick={() => setOutputText(outputText.toLowerCase())}
+              type="button"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2"
+              onClick={() => setOutputText(outputText.toLowerCase())}
             >
               Lower
             </button>
