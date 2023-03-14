@@ -9,10 +9,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
 import ThemeButton from "../components/ThemeButton";
-import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faTrashAlt, faPencil  } from "@fortawesome/free-solid-svg-icons";
 import { useTranslate } from "../hooks/useTranslate";
 import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
+
+interface IHistory {
+	inputText: string;
+	tableSchema?: string;
+  isHumanToSql?: boolean;
+}
 
 export default function Home() {
   const {
@@ -28,6 +34,11 @@ export default function Home() {
   const [isCopied, setIsCopied] = useState(false);
   const [tableSchema, setTableSchema] = useState("");
   const [showTableSchema, setShowTableSchema] = useState(false);
+  const [history, setHistory] = useState<IHistory[]>([])
+
+  const addHistoryEntry = (entry: IHistory) => {
+    setHistory([...history, entry]);
+  };
 
   useEffect(() => {
     if (translationError) toast.error(translationError);
@@ -57,6 +68,14 @@ export default function Home() {
     }, 3000);
   };
 
+  const handleEdit = (entry: IHistory) => {
+    const { inputText, tableSchema, isHumanToSql } = entry;
+    setInputText(JSON.parse(inputText));
+    tableSchema ? setTableSchema(tableSchema) : setTableSchema("");
+    isHumanToSql ? setIsHumanToSql(isHumanToSql) : setIsHumanToSql(false);
+    setOutputText("");
+  };
+
   const handleClear = () => {
     setInputText("");
     setOutputText("");
@@ -81,12 +100,18 @@ export default function Home() {
         toast.error("Invalid table schema.");
         return;
       }
+
+      console.log(inputText);
+
+      addHistoryEntry({ inputText:  JSON.stringify(inputText), tableSchema, isHumanToSql })
+
       translate({ inputText, tableSchema, isHumanToSql });
     } catch (error) {
       console.log(error);
       toast.error(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
     }
   };
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -294,6 +319,42 @@ export default function Home() {
               readOnly
             />
           </div>
+        )}
+
+        {history.length > 0 && (
+         <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <>
+            <label htmlFor="outputText" className="block font-bold mb-2">
+              History
+            </label>
+            {history.length > 0 && history.map((entry: IHistory, index: number) => (
+              <div className="flex justify-between mb-4">
+                <SyntaxHighlighter
+                  language="sql"
+                  style={vs}
+                  wrapLines={true}
+                  showLineNumbers={true}
+                  lineNumberStyle={{ color: "#ccc" }}
+                  customStyle={{
+                  maxHeight: "none",
+                  height: "auto",
+                  overflow: "visible",
+                  wordWrap: "break-word",
+                  }}
+                  lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                  startingLineNumber={index + 1}
+                >
+                 {JSON.parse(entry?.inputText)}
+                </SyntaxHighlighter>
+                <FontAwesomeIcon
+                    onClick={() => handleEdit(entry)}
+                    icon={faPencil}
+                    className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
+               />
+               </div>
+             ))}
+          </>
+         </div>
         )}
       </main>
       <Analytics />
