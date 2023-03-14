@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import rateLimit from "express-rate-limit";
 import translateToHuman from "../../src/translateToHuman";
 
 if (!process.env.OPENAI_API_KEY) {
@@ -6,6 +7,13 @@ if (!process.env.OPENAI_API_KEY) {
     "OPENAI_API_KEY is not defined in .env file. Please add it there (see README.md for more details)."
   );
 }
+
+
+export const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: "Too many requests from this IP, please try again later",
+});
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,3 +35,6 @@ export default async function handler(
     res.status(500).json({ message: "Error translating to natural language" });
   }
 }
+
+
+export const rateLimitedHandler = limiter(handler);
