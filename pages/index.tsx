@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 const SyntaxHighlighter = dynamic(() => import("react-syntax-highlighter"));
-import { vs } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { vs, dracula } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Head from "next/head";
 import Github from "../components/GitHub";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
@@ -13,8 +13,12 @@ import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { useTranslate } from "../hooks/useTranslate";
 import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
+import { useTheme } from 'next-themes';
 
 export default function Home() {
+  const { theme } = useTheme();
+  const isThemeDark = theme === "dark"
+  const [mounted, setMounted] = useState(false);
   const {
     translate,
     translating,
@@ -30,6 +34,10 @@ export default function Home() {
   const [showTableSchema, setShowTableSchema] = useState(false);
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
     if (translationError) toast.error(translationError);
   }, [translationError]);
 
@@ -39,6 +47,10 @@ export default function Home() {
     const regex = new RegExp(pattern);
     return regex.test(text);
   };
+
+  if (!mounted) {
+    return null
+  }
 
   const handleInputChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -146,15 +158,20 @@ export default function Home() {
               <h2 className="font-bold text-lg mb-2">Table Schema</h2>
               <SyntaxHighlighter
                 language="sql"
-                style={vs}
+                style={isThemeDark ? dracula : vs}
                 wrapLines={true}
                 showLineNumbers={true}
-                lineNumberStyle={{ color: "#ccc" }}
+                lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
                 customStyle={{
                   maxHeight: "none",
                   height: "auto",
                   overflow: "visible",
                   wordWrap: "break-word",
+                  color: "inherit",
+                  backgroundColor: isThemeDark ? "#374151" : "#fff",
+                  borderColor: "#6b7280",
+                  borderRadius: 4,
+                  borderWidth: 1
                 }}
                 lineProps={{ style: { whiteSpace: "pre-wrap" } }}
               >
@@ -208,15 +225,15 @@ export default function Home() {
               <FontAwesomeIcon
                 onClick={handleClear}
                 icon={faTrashAlt}
-                className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4"
+                className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 switch-icon w-4 h-4 hover:scale-110 transition"
               />
 
               <FontAwesomeIcon
                 icon={faExchangeAlt}
-                className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer transition-transform duration-300 ${
+                className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer hover:scale-110 transition-transform duration-300 ${
                   isHumanToSql ? "transform rotate-90" : ""
                 } icon-size-30 switch-icon w-4 h-4`}
-                onClick={() => setIsHumanToSql(!isHumanToSql)}
+                onClick={() => { setIsHumanToSql(!isHumanToSql); setOutputText("")}}
               />
             </div>
           </div>
@@ -257,28 +274,43 @@ export default function Home() {
                 </button>
               )}
             </div>
-            <SyntaxHighlighter
-              language="sql"
-              style={vs}
-              wrapLines={true}
-              showLineNumbers={true}
-              lineNumberStyle={{ color: "#ccc" }}
-              customStyle={{
-                maxHeight: "none",
-                height: "auto",
-                overflow: "visible",
-                wordWrap: "break-word",
-              }}
-              lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-            >
-              {isOutputTextUpperCase
-                ? outputText.toUpperCase()
-                : outputText.toLowerCase()}
-            </SyntaxHighlighter>
+
+            {isHumanToSql ?
+              <SyntaxHighlighter
+                language="sql"
+                style={isThemeDark ? dracula : vs}
+                wrapLines={true}
+                showLineNumbers={true}
+                lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+                customStyle={{
+                  maxHeight: "none",
+                  height: "auto",
+                  overflow: "visible",
+                  wordWrap: "break-word",
+                  color: "inherit",
+                  backgroundColor: isThemeDark ? "#374151" : "#fff",
+                  borderColor: "#6b7280",
+                  borderRadius: 4,
+                  borderWidth: 1
+                }}
+                lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+              >
+                {isOutputTextUpperCase
+                  ? outputText.toUpperCase()
+                  : outputText.toLowerCase()}
+              </SyntaxHighlighter>
+            :
+              <textarea
+                readOnly
+                className="h-auto shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                rows={3}
+                value={isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
+              />
+            }
             <FontAwesomeIcon
               onClick={handleCopy}
               icon={faCopy}
-              className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4 mr-2"
+              className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 switch-icon w-4 h-4 mr-2 hover:scale-110 transition"
             />
             {isCopied && (
               <p className="text-blue-500 text-sm">Copied to clipboard!</p>
