@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
-import dynamic from 'next/dynamic';
-const SyntaxHighlighter = dynamic(() => import('react-syntax-highlighter'));
-import { vs } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import dynamic from "next/dynamic";
+const SyntaxHighlighter = dynamic(() => import("react-syntax-highlighter"));
+import { vs } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Head from "next/head";
 import Github from "../components/GitHub";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
-import ThemeButton from '../components/ThemeButton';
+import ThemeButton from "../components/ThemeButton";
 import { faCopy, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { useTranslate } from '../hooks/useTranslate';
-import { toast } from 'react-hot-toast';
-import LoadingDots from '../components/LoadingDots';
+import { useTranslate } from "../hooks/useTranslate";
+import { toast } from "react-hot-toast";
+import LoadingDots from "../components/LoadingDots";
 
 export default function Home() {
-  const {translate, translating, outputText, setOutputText, translationError} = useTranslate()
+  const {
+    translate,
+    translating,
+    outputText,
+    setOutputText,
+    translationError,
+  } = useTranslate();
   const [inputText, setInputText] = useState("");
   const [isHumanToSql, setIsHumanToSql] = useState(true);
   const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
@@ -24,25 +30,24 @@ export default function Home() {
   const [showTableSchema, setShowTableSchema] = useState(false);
 
   useEffect(() => {
-    if (translationError)
-    toast.error(translationError)
-  }, [translationError])
+    if (translationError) toast.error(translationError);
+  }, [translationError]);
 
   const isValidTableSchema = (text: any) => {
-    console.log(text)
+    console.log(text);
     const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
     const regex = new RegExp(pattern);
     return regex.test(text);
-
   };
 
-  const handleInputChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleInputChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
     setInputText(event.target.value);
     if (!showTableSchema) {
       setTableSchema("");
     }
   };
-  
 
   const handleCopy = () => {
     navigator.clipboard.writeText(outputText);
@@ -52,13 +57,11 @@ export default function Home() {
     }, 3000);
   };
 
-
   const handleClear = () => {
     setInputText("");
     setOutputText("");
     setTableSchema("");
   };
-
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -66,7 +69,8 @@ export default function Home() {
     try {
       // Validate input syntax
       if (!isHumanToSql) {
-        const pattern = /^\s*(select|insert|update|delete|create|alter|drop|truncate|grant|revoke|use|begin|commit|rollback)\s/i;
+        const pattern =
+          /^\s*(select|insert|update|delete|create|alter|drop|truncate|grant|revoke|use|begin|commit|rollback)\s/i;
         const regex = new RegExp(pattern);
         if (!regex.test(inputText)) {
           toast.error("Invalid SQL syntax.");
@@ -77,23 +81,23 @@ export default function Home() {
         toast.error("Invalid table schema.");
         return;
       }
-      translate({inputText, tableSchema, isHumanToSql})
+      translate({ inputText, tableSchema, isHumanToSql });
     } catch (error) {
       console.log(error);
       toast.error(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
     }
   };
-  
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <Head>
-        <title>{isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}</title>
+        <title>
+          {isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}
+        </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="max-w-lg mx-auto my-12 px-4">
-        <ThemeButton className='absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition' />
+        <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
         <div className="flex items-center justify-center">
           <a
             className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-600 text-white px-5 py-2 text-sm shadow-md hover:bg-blue-500 bg-blue-600 font-medium transition"
@@ -110,7 +114,10 @@ export default function Home() {
           {isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}
         </h1>
 
-        <form onSubmit={(event) => handleSubmit(event)} className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form
+          onSubmit={(event) => handleSubmit(event)}
+          className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
           <div className="flex flex-col mb-4">
             <label htmlFor="inputText" className="block font-bold mb-2">
               {isHumanToSql ? "Human Language Query" : "SQL Query"}
@@ -119,11 +126,15 @@ export default function Home() {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="inputText"
               rows={3}
-              placeholder={isHumanToSql ? "e.g. show me all the cars that are red" : "SELECT * FROM cars WHERE color = 'red'"}
+              placeholder={
+                isHumanToSql
+                  ? "e.g. show me all the cars that are red"
+                  : "SELECT * FROM cars WHERE color = 'red'"
+              }
               value={inputText}
               onChange={handleInputChange}
               onKeyDown={(event) => {
-                if (event.key === "Enter" && event.metaKey === true) {
+                if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
                   handleSubmit(event);
                 }
               }}
@@ -170,7 +181,6 @@ export default function Home() {
             </div>
           )}
 
-
           {isHumanToSql && showTableSchema && (
             <div className="flex flex-col mb-4">
               <label htmlFor="tableSchema" className="block font-bold mb-2">
@@ -195,16 +205,17 @@ export default function Home() {
 
           <div className="flex justify-between">
             <div className="flex items-center">
-
               <FontAwesomeIcon
                 onClick={handleClear}
                 icon={faTrashAlt}
-                className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4" />
+                className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4"
+              />
 
               <FontAwesomeIcon
                 icon={faExchangeAlt}
-                className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer transition-transform duration-300 ${isHumanToSql ? "transform rotate-90" : ""
-                  } icon-size-30 switch-icon w-4 h-4`}
+                className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer transition-transform duration-300 ${
+                  isHumanToSql ? "transform rotate-90" : ""
+                } icon-size-30 switch-icon w-4 h-4`}
                 onClick={() => setIsHumanToSql(!isHumanToSql)}
               />
             </div>
@@ -212,20 +223,21 @@ export default function Home() {
 
           <button
             type="submit"
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${translating && "opacity-50 pointer-events-none"
-              }`}
+            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+              translating && "opacity-50 pointer-events-none"
+            }`}
             disabled={translating}
           >
             {translating ? (
               <>
                 Translating
-                <LoadingDots color='white' />
+                <LoadingDots color="white" />
               </>
-              
-              ) : `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`}
+            ) : (
+              `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`
+            )}
           </button>
         </form>
-
 
         {outputText && (
           <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -237,29 +249,48 @@ export default function Home() {
                 <button
                   type="button"
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setIsOutputTextUpperCase(!isOutputTextUpperCase)}
+                  onClick={() =>
+                    setIsOutputTextUpperCase(!isOutputTextUpperCase)
+                  }
                 >
                   {isOutputTextUpperCase ? "lowercase" : "UPPERCASE"}
                 </button>
               )}
             </div>
             <SyntaxHighlighter
-              language='sql'
+              language="sql"
               style={vs}
               wrapLines={true}
               showLineNumbers={true}
-              lineNumberStyle={{ color: '#ccc' }}
-              customStyle={{ maxHeight: 'none', height: 'auto', overflow: 'visible', wordWrap: 'break-word' }}
-              lineProps={{ style: { whiteSpace: 'pre-wrap' } }}
+              lineNumberStyle={{ color: "#ccc" }}
+              customStyle={{
+                maxHeight: "none",
+                height: "auto",
+                overflow: "visible",
+                wordWrap: "break-word",
+              }}
+              lineProps={{ style: { whiteSpace: "pre-wrap" } }}
             >
-              {isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
+              {isOutputTextUpperCase
+                ? outputText.toUpperCase()
+                : outputText.toLowerCase()}
             </SyntaxHighlighter>
-            <FontAwesomeIcon onClick={handleCopy} icon={faCopy} className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4 mr-2" />
-            {isCopied && <p className="text-blue-500 text-sm">Copied to clipboard!</p>}
+            <FontAwesomeIcon
+              onClick={handleCopy}
+              icon={faCopy}
+              className="text-gray-700 dark:text-gray-200 font-bold ml-2 text-xs icon-size-30 switch-icon w-4 h-4 mr-2"
+            />
+            {isCopied && (
+              <p className="text-blue-500 text-sm">Copied to clipboard!</p>
+            )}
             <textarea
               className="hidden"
               id="outputText"
-              value={isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
+              value={
+                isOutputTextUpperCase
+                  ? outputText.toUpperCase()
+                  : outputText.toLowerCase()
+              }
               readOnly
             />
           </div>
@@ -267,6 +298,6 @@ export default function Home() {
       </main>
       <Analytics />
       <Footer />
-    </div >
+    </div>
   );
 }
