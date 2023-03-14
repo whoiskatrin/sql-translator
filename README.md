@@ -11,6 +11,7 @@ SQL Translator is a tool for converting natural language queries into SQL code u
 - copy to clipboard
 - SQL syntax highlighting
 - schema awareness (beta)
+- query history
 
 ## Roadmap
 
