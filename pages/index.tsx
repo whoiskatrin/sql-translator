@@ -9,21 +9,25 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
 import ThemeButton from "../components/ThemeButton";
-import { faCopy, faTrashAlt, faPencil  } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCopy,
+  faTrashAlt,
+  faPencil,
+} from "@fortawesome/free-solid-svg-icons";
 import { useTranslate } from "../hooks/useTranslate";
 import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
-import { useTheme } from 'next-themes';
+import { useTheme } from "next-themes";
 
 interface IHistory {
-	inputText: string;
-	tableSchema?: string;
+  inputText: string;
+  tableSchema?: string;
   isHumanToSql?: boolean;
 }
 
 export default function Home() {
   const { theme } = useTheme();
-  const isThemeDark = theme === "dark"
+  const isThemeDark = theme === "dark";
   const [mounted, setMounted] = useState(false);
   const {
     translate,
@@ -38,7 +42,7 @@ export default function Home() {
   const [isCopied, setIsCopied] = useState(false);
   const [tableSchema, setTableSchema] = useState("");
   const [showTableSchema, setShowTableSchema] = useState(false);
-  const [history, setHistory] = useState<IHistory[]>([])
+  const [history, setHistory] = useState<IHistory[]>([]);
   const [showHistory, setShowHistory] = useState(false);
 
   const addHistoryEntry = (entry: IHistory) => {
@@ -46,8 +50,8 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (translationError) toast.error(translationError);
@@ -61,7 +65,7 @@ export default function Home() {
   };
 
   if (!mounted) {
-    return null
+    return null;
   }
 
   const handleInputChange = (event: {
@@ -116,7 +120,11 @@ export default function Home() {
 
       console.log(inputText);
 
-      addHistoryEntry({ inputText:  JSON.stringify(inputText), tableSchema, isHumanToSql })
+      addHistoryEntry({
+        inputText: JSON.stringify(inputText),
+        tableSchema,
+        isHumanToSql,
+      });
 
       translate({ inputText, tableSchema, isHumanToSql });
     } catch (error) {
@@ -124,7 +132,6 @@ export default function Home() {
       toast.error(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
     }
   };
-
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -197,7 +204,7 @@ export default function Home() {
                   backgroundColor: isThemeDark ? "#374151" : "#fff",
                   borderColor: "#6b7280",
                   borderRadius: 4,
-                  borderWidth: 1
+                  borderWidth: 1,
                 }}
                 lineProps={{ style: { whiteSpace: "pre-wrap" } }}
               >
@@ -259,7 +266,10 @@ export default function Home() {
                 className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer hover:scale-110 transition-transform duration-300 ${
                   isHumanToSql ? "transform rotate-90" : ""
                 } icon-size-30 switch-icon w-4 h-4`}
-                onClick={() => { setIsHumanToSql(!isHumanToSql); setOutputText("")}}
+                onClick={() => {
+                  setIsHumanToSql(!isHumanToSql);
+                  setOutputText("");
+                }}
               />
             </div>
           </div>
@@ -301,7 +311,7 @@ export default function Home() {
               )}
             </div>
 
-            {isHumanToSql ?
+            {isHumanToSql ? (
               <SyntaxHighlighter
                 language="sql"
                 style={isThemeDark ? dracula : vs}
@@ -317,7 +327,7 @@ export default function Home() {
                   backgroundColor: isThemeDark ? "#374151" : "#fff",
                   borderColor: "#6b7280",
                   borderRadius: 4,
-                  borderWidth: 1
+                  borderWidth: 1,
                 }}
                 lineProps={{ style: { whiteSpace: "pre-wrap" } }}
               >
@@ -325,14 +335,18 @@ export default function Home() {
                   ? outputText.toUpperCase()
                   : outputText.toLowerCase()}
               </SyntaxHighlighter>
-            :
+            ) : (
               <textarea
                 readOnly
                 className="h-auto shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 rows={3}
-                value={isOutputTextUpperCase ? outputText.toUpperCase() : outputText.toLowerCase()}
+                value={
+                  isOutputTextUpperCase
+                    ? outputText.toUpperCase()
+                    : outputText.toLowerCase()
+                }
               />
-            }
+            )}
             <FontAwesomeIcon
               onClick={handleCopy}
               icon={faCopy}
@@ -355,55 +369,61 @@ export default function Home() {
         )}
 
         {history.length > 0 && (
-         <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-1 mb-4">
-          <>
-            <div className="flex justify-between mb-4 items-center">
-              <label htmlFor="outputText" className="block font-bold mb-2">
+          <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-1 mb-4">
+            <>
+              <div className="flex justify-between mb-4 items-center">
+                <label htmlFor="outputText" className="block font-bold mb-2">
                   History
                 </label>
-              <button
-                type="button"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-15 h-10"
-                onClick={() =>
-                  setShowHistory(!showHistory)
-                }
-              >
-                {showHistory ? "Hide" : "Show"}
-              </button>
-            </div>
+                <button
+                  type="button"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-15 h-10"
+                  onClick={() => setShowHistory(!showHistory)}
+                >
+                  {showHistory ? "Hide" : "Show"}
+                </button>
+              </div>
 
-            {showHistory && (
-              <>
-                {history.length > 0 && history.map((entry: IHistory, index: number) => (
-                  <div className="flex justify-between mb-4">
-                    <SyntaxHighlighter
-                      language="sql"
-                      style={vs}
-                      wrapLines={true}
-                      showLineNumbers={true}
-                      lineNumberStyle={{ color: "#ccc" }}
-                      customStyle={{
-                      maxHeight: "none",
-                      height: "auto",
-                      overflow: "visible",
-                      wordWrap: "break-word",
-                      }}
-                      lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-                      startingLineNumber={index + 1}
-                    >
-                    {JSON.parse(entry?.inputText)}
-                    </SyntaxHighlighter>
-                    <FontAwesomeIcon
-                        onClick={() => handleEdit(entry)}
-                        icon={faPencil}
-                        className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
-                  />
-                  </div>
-                ))}
-              </>
-            )}
-          </>
-         </div>
+              {showHistory && (
+                <>
+                  {history.length > 0 &&
+                    history.map((entry: IHistory, index: number) => (
+                      <div className="flex justify-between mb-4">
+                        <SyntaxHighlighter
+                          language="sql"
+                          style={isThemeDark ? dracula : vs}
+                          wrapLines={true}
+                          showLineNumbers={true}
+                          lineNumberStyle={{
+                            color: isThemeDark ? "gray" : "#ccc",
+                          }}
+                          customStyle={{
+                            maxHeight: "none",
+                            height: "auto",
+                            overflow: "visible",
+                            wordWrap: "break-word",
+                            color: "inherit",
+                            backgroundColor: isThemeDark ? "#374151" : "#fff",
+                            borderColor: "#6b7280",
+                            borderRadius: 4,
+                            borderWidth: 1,
+                          }}
+                          lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                          startingLineNumber={index + 1}
+                        >
+                          {JSON.parse(entry?.inputText)}
+                        </SyntaxHighlighter>
+                        <FontAwesomeIcon
+                          onClick={() => handleEdit(entry)}
+                          icon={faPencil}
+                          className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
+                        />
+                      </div>
+                    ))}
+                </>
+              )}
+            </>
+          </div>
         )}
       </main>
       <Analytics />
