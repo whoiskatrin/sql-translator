@@ -6,7 +6,7 @@ SQL Translator is a tool for converting natural language queries into SQL code u
 
 ## Features
 
-- dark more
+- dark mode
 - lowercase/uppercase toggle
 - copy to clipboard
 - SQL syntax highlighting
