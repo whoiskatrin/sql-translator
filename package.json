@@ -16,6 +16,7 @@
     "@vercel/analytics": "^0.1.8",
     "ajv": "^8.12.0",
     "eventsource-parser": "^0.0.5",
+    "express-rate-limit": "^6.7.0",
     "isomorphic-unfetch": "^4.0.2",
     "next": "latest",
     "next-themes": "^0.2.1",
@@ -26,7 +27,8 @@
     "react-hook-form": "^7.42.0",
     "react-hot-toast": "^2.4.0",
     "react-syntax-highlighter": "^15.5.0",
-    "react-use-measure": "^2.1.1"
+    "react-use-measure": "^2.1.1",
+    "redis": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
