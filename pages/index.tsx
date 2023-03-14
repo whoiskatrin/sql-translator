@@ -35,6 +35,7 @@ export default function Home() {
   const [tableSchema, setTableSchema] = useState("");
   const [showTableSchema, setShowTableSchema] = useState(false);
   const [history, setHistory] = useState<IHistory[]>([])
+  const [showHistory, setShowHistory] = useState(false);
 
   const addHistoryEntry = (entry: IHistory) => {
     setHistory([...history, entry]);
@@ -322,37 +323,53 @@ export default function Home() {
         )}
 
         {history.length > 0 && (
-         <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+         <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-1 mb-4">
           <>
-            <label htmlFor="outputText" className="block font-bold mb-2">
-              History
-            </label>
-            {history.length > 0 && history.map((entry: IHistory, index: number) => (
-              <div className="flex justify-between mb-4">
-                <SyntaxHighlighter
-                  language="sql"
-                  style={vs}
-                  wrapLines={true}
-                  showLineNumbers={true}
-                  lineNumberStyle={{ color: "#ccc" }}
-                  customStyle={{
-                  maxHeight: "none",
-                  height: "auto",
-                  overflow: "visible",
-                  wordWrap: "break-word",
-                  }}
-                  lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-                  startingLineNumber={index + 1}
-                >
-                 {JSON.parse(entry?.inputText)}
-                </SyntaxHighlighter>
-                <FontAwesomeIcon
-                    onClick={() => handleEdit(entry)}
-                    icon={faPencil}
-                    className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
-               />
-               </div>
-             ))}
+            <div className="flex justify-between mb-4 items-center">
+              <label htmlFor="outputText" className="block font-bold mb-2">
+                  History
+                </label>
+              <button
+                type="button"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-15 h-10"
+                onClick={() =>
+                  setShowHistory(!showHistory)
+                }
+              >
+                {showHistory ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {showHistory && (
+              <>
+                {history.length > 0 && history.map((entry: IHistory, index: number) => (
+                  <div className="flex justify-between mb-4">
+                    <SyntaxHighlighter
+                      language="sql"
+                      style={vs}
+                      wrapLines={true}
+                      showLineNumbers={true}
+                      lineNumberStyle={{ color: "#ccc" }}
+                      customStyle={{
+                      maxHeight: "none",
+                      height: "auto",
+                      overflow: "visible",
+                      wordWrap: "break-word",
+                      }}
+                      lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                      startingLineNumber={index + 1}
+                    >
+                    {JSON.parse(entry?.inputText)}
+                    </SyntaxHighlighter>
+                    <FontAwesomeIcon
+                        onClick={() => handleEdit(entry)}
+                        icon={faPencil}
+                        className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
+                  />
+                  </div>
+                ))}
+              </>
+            )}
           </>
          </div>
         )}
