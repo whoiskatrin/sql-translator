@@ -5,7 +5,7 @@ const LoadingDots = ({
   style = "small",
 }: {
   color: string;
-  style: string;
+  style?: string;
 }) => {
   return (
     <span className={style == "small" ? styles.loading2 : styles.loading}>
@@ -17,7 +17,3 @@ const LoadingDots = ({
 };
 
 export default LoadingDots;
-
-LoadingDots.defaultProps = {
-  style: "small",
-};
