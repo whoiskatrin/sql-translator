@@ -18,6 +18,7 @@ import { useTranslate } from "../hooks/useTranslate";
 import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
 import { useTheme } from "next-themes";
+import Toggle from '../components/Toggle';
 
 interface IHistory {
   inputText: string;
@@ -295,19 +296,9 @@ export default function Home() {
             <label htmlFor="outputText" className="block font-bold mb-2">
               {isHumanToSql ? "SQL Query" : "Human Language Query"}
             </label>
-            <div className="flex justify-between mb-4">
-              {isHumanToSql && (
-                <button
-                  type="button"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() =>
-                    setIsOutputTextUpperCase(!isOutputTextUpperCase)
-                  }
-                >
-                  {isOutputTextUpperCase ? "lowercase" : "UPPERCASE"}
-                </button>
-              )}
-            </div>
+            {isHumanToSql && (
+              <Toggle isUppercase={isOutputTextUpperCase} handleSwitchText={setIsOutputTextUpperCase} />
+            )}
 
             {isHumanToSql ? (
               <SyntaxHighlighter
@@ -348,7 +339,7 @@ export default function Home() {
             <FontAwesomeIcon
               onClick={handleCopy}
               icon={faCopy}
-              className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 switch-icon w-4 h-4 mr-2 hover:scale-110 transition"
+              className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 w-4 h-4 mr-2 mt-3 hover:scale-110 transition"
             />
             {isCopied && (
               <p className="text-blue-500 text-sm">Copied to clipboard!</p>
