@@ -57,7 +57,7 @@ export default function Home() {
     if (translationError) toast.error(translationError);
   }, [translationError]);
 
-  const isValidTableSchema = (text: any) => {
+  const isValidTableSchema = (text: string) => {
     console.log(text);
     const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
     const regex = new RegExp(pattern);
@@ -68,9 +68,7 @@ export default function Home() {
     return null;
   }
 
-  const handleInputChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
     if (!showTableSchema) {
       setTableSchema("");
@@ -99,7 +97,7 @@ export default function Home() {
     setTableSchema("");
   };
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     try {
