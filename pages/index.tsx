@@ -18,7 +18,7 @@ import { useTranslate } from "../hooks/useTranslate";
 import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
 import { useTheme } from "next-themes";
-import Toggle from '../components/Toggle';
+import Toggle from "../components/Toggle";
 
 interface IHistory {
   inputText: string;
@@ -66,7 +66,7 @@ export default function Home() {
   };
 
   const addHistoryEntry = (entry: IHistory) => {
-    if (history.some(({inputText}) => inputText === entry.inputText)) return
+    if (history.some(({ inputText }) => inputText === entry.inputText)) return;
     setHistory([...history, entry]);
   };
 
@@ -225,7 +225,7 @@ export default function Home() {
                 }}
                 className="mr-2"
               />
-              <label htmlFor="showTableSchema">Provide Table Schema</label>
+              <label htmlFor="showTableSchema">Add Schema</label>
             </div>
           )}
 
@@ -296,7 +296,10 @@ export default function Home() {
               {isHumanToSql ? "SQL Query" : "Human Language Query"}
             </label>
             {isHumanToSql && (
-              <Toggle isUppercase={isOutputTextUpperCase} handleSwitchText={setIsOutputTextUpperCase} />
+              <Toggle
+                isUppercase={isOutputTextUpperCase}
+                handleSwitchText={setIsOutputTextUpperCase}
+              />
             )}
 
             {isHumanToSql ? (
