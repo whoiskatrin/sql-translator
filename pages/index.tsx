@@ -50,24 +50,24 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
-  
-  const addHistoryEntry = (entry: IHistory) => {
-    if (history.some(({inputText}) => inputText === entry.inputText)) return
-    setHistory([...history, entry]);
-  };
-
   useEffect(() => {
     if (translationError) toast.error(translationError);
   }, [translationError]);
+
+  if (!mounted) {
+    return null;
+  }
 
   const isValidTableSchema = (text: string) => {
     console.log(text);
     const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
     const regex = new RegExp(pattern);
     return regex.test(text);
+  };
+
+  const addHistoryEntry = (entry: IHistory) => {
+    if (history.some(({inputText}) => inputText === entry.inputText)) return
+    setHistory([...history, entry]);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
