@@ -46,13 +46,18 @@ export default function Home() {
   const [history, setHistory] = useState<IHistory[]>([]);
   const [showHistory, setShowHistory] = useState(false);
 
-  const addHistoryEntry = (entry: IHistory) => {
-    setHistory([...history, entry]);
-  };
-
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  if (!mounted) {
+    return null;
+  }
+  
+  const addHistoryEntry = (entry: IHistory) => {
+    if (history.some(({inputText}) => inputText === entry.inputText)) return
+    setHistory([...history, entry]);
+  };
 
   useEffect(() => {
     if (translationError) toast.error(translationError);
@@ -64,10 +69,6 @@ export default function Home() {
     const regex = new RegExp(pattern);
     return regex.test(text);
   };
-
-  if (!mounted) {
-    return null;
-  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
@@ -116,8 +117,6 @@ export default function Home() {
         toast.error("Invalid table schema.");
         return;
       }
-
-      console.log(inputText);
 
       addHistoryEntry({
         inputText: JSON.stringify(inputText),
@@ -377,7 +376,7 @@ export default function Home() {
                 <>
                   {history.length > 0 &&
                     history.map((entry: IHistory, index: number) => (
-                      <div className="flex justify-between mb-4">
+                      <div key={index} className="flex justify-between mb-4">
                         <SyntaxHighlighter
                           language="sql"
                           style={isThemeDark ? dracula : vs}
