@@ -27,8 +27,9 @@ interface IHistory {
 }
 
 export default function Home() {
-  const { theme } = useTheme();
-  const isThemeDark = theme === "dark";
+  const { theme, systemTheme } = useTheme();
+  const isSystemTheme = theme === "system" ? systemTheme : theme
+  const isThemeDark = isSystemTheme === "dark";
   const [mounted, setMounted] = useState(false);
   const {
     translate,
