@@ -260,16 +260,15 @@ export default function Home() {
 
         <div className="flex justify-between">
           <div className="flex items-center">
-            <img src="/switch.svg"></img>
             <button
-              className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer hover:scale-110 transition-transform duration-300 ${
-                isHumanToSql ? "transform rotate-90" : ""
-              }`}
+              className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer}`}
               onClick={() => {
                 setIsHumanToSql(!isHumanToSql);
                 setOutputText("");
               }}
-            ></button>
+            >
+              <img src="/switch.svg" alt="Switch" />
+            </button>
           </div>
         </div>
 
