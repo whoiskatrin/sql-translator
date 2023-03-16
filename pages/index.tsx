@@ -141,16 +141,15 @@ export default function Home() {
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="max-w-lg mx-auto my-12 px-4">
-        <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-
+      <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
+      <div className="flex flex-wrap gap-1 items-start justify-center">
         <form
           onSubmit={(event) => handleSubmit(event)}
-          className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-auto ml-20"
         >
           <div className="flex flex-col mb-4">
             <label htmlFor="inputText" className="block font-bold mb-2">
-              {isHumanToSql ? "Human Language Query" : "SQL Query"}
+              {isHumanToSql ? "Human Language" : "SQL"}
             </label>
             <textarea
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -238,172 +237,166 @@ export default function Home() {
             </div>
           )}
 
-          <div className="flex justify-between">
-            <div className="flex items-center">
-              <FontAwesomeIcon
-                onClick={handleClear}
-                icon={faTrashAlt}
-                className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 switch-icon w-4 h-4 hover:scale-110 transition"
-              />
-
-              <FontAwesomeIcon
-                icon={faExchangeAlt}
-                className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer hover:scale-110 transition-transform duration-300 ${
-                  isHumanToSql ? "transform rotate-90" : ""
-                } icon-size-30 switch-icon w-4 h-4`}
-                onClick={() => {
-                  setIsHumanToSql(!isHumanToSql);
-                  setOutputText("");
-                }}
-              />
-            </div>
-          </div>
-
           <button
             type="submit"
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+            className={`cursor-pointer border-none py-2 px-4 bg-transparent rounded-7xl bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start ${
               translating && "opacity-50 pointer-events-none"
             }`}
             disabled={translating}
           >
-            {translating ? (
-              <>
-                Translating
-                <LoadingDots color="white" />
-              </>
-            ) : (
-              `Translate to ${isHumanToSql ? "SQL" : "Natural Language"}`
-            )}
+            <img src="/stars.svg"></img>
+            <div className="relative text-sm font-semibold font-inter text-white text-center inline-block mx-auto">
+              {translating ? (
+                <>
+                  Translating
+                  <LoadingDots color="white" />
+                </>
+              ) : (
+                `Generate ${isHumanToSql ? "SQL" : "Natural Language"}`
+              )}
+            </div>
           </button>
         </form>
 
-        {outputText && (
-          <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <label htmlFor="outputText" className="block font-bold mb-2">
-              {isHumanToSql ? "SQL Query" : "Human Language Query"}
-            </label>
-            {isHumanToSql && (
-              <Toggle
-                isUppercase={isOutputTextUpperCase}
-                handleSwitchText={setIsOutputTextUpperCase}
-              />
-            )}
+        <div className="flex justify-between">
+          <div className="flex items-center">
+            <img src="/switch.svg"></img>
+            <button
+              className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer hover:scale-110 transition-transform duration-300 ${
+                isHumanToSql ? "transform rotate-90" : ""
+              }`}
+              onClick={() => {
+                setIsHumanToSql(!isHumanToSql);
+                setOutputText("");
+              }}
+            ></button>
+          </div>
+        </div>
 
-            {isHumanToSql ? (
-              <SyntaxHighlighter
-                language="sql"
-                style={isThemeDark ? dracula : vs}
-                wrapLines={true}
-                showLineNumbers={true}
-                lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
-                customStyle={{
-                  maxHeight: "none",
-                  height: "auto",
-                  overflow: "visible",
-                  wordWrap: "break-word",
-                  color: "inherit",
-                  backgroundColor: isThemeDark ? "#374151" : "#fff",
-                  borderColor: "#6b7280",
-                  borderRadius: 4,
-                  borderWidth: 1,
-                }}
-                lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-              >
-                {isOutputTextUpperCase
-                  ? outputText.toUpperCase()
-                  : outputText.toLowerCase()}
-              </SyntaxHighlighter>
-            ) : (
-              <textarea
-                readOnly
-                className="h-auto shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                rows={3}
-                value={
-                  isOutputTextUpperCase
-                    ? outputText.toUpperCase()
-                    : outputText.toLowerCase()
-                }
-              />
-            )}
-            <FontAwesomeIcon
-              onClick={handleCopy}
-              icon={faCopy}
-              className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 w-4 h-4 mr-2 mt-3 hover:scale-110 transition"
+        <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-auto ml-20">
+          <label htmlFor="outputText" className="block font-bold mb-2">
+            {isHumanToSql ? "SQL" : "Human Language"}
+          </label>
+          {isHumanToSql && (
+            <Toggle
+              isUppercase={isOutputTextUpperCase}
+              handleSwitchText={setIsOutputTextUpperCase}
             />
-            {isCopied && (
-              <p className="text-blue-500 text-sm">Copied to clipboard!</p>
-            )}
+          )}
+
+          {isHumanToSql ? (
+            <SyntaxHighlighter
+              language="sql"
+              style={isThemeDark ? dracula : vs}
+              wrapLines={true}
+              showLineNumbers={true}
+              lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+              customStyle={{
+                maxHeight: "none",
+                height: "auto",
+                overflow: "visible",
+                wordWrap: "break-word",
+                color: "inherit",
+                backgroundColor: isThemeDark ? "#374151" : "#fff",
+                borderColor: "#6b7280",
+                borderRadius: 4,
+                borderWidth: 1,
+              }}
+              lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+            >
+              {isOutputTextUpperCase
+                ? outputText.toUpperCase()
+                : outputText.toLowerCase()}
+            </SyntaxHighlighter>
+          ) : (
             <textarea
-              className="hidden"
-              id="outputText"
+              readOnly
+              className="h-auto shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              rows={3}
               value={
                 isOutputTextUpperCase
                   ? outputText.toUpperCase()
                   : outputText.toLowerCase()
               }
-              readOnly
             />
-          </div>
-        )}
+          )}
+          <FontAwesomeIcon
+            onClick={handleCopy}
+            icon={faCopy}
+            className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 w-4 h-4 mr-2 mt-3 hover:scale-110 transition"
+          />
+          {isCopied && (
+            <p className="text-blue-500 text-sm">Copied to clipboard!</p>
+          )}
+          <textarea
+            className="hidden"
+            id="outputText"
+            value={
+              isOutputTextUpperCase
+                ? outputText.toUpperCase()
+                : outputText.toLowerCase()
+            }
+            readOnly
+          />
+        </div>
+      </div>
+      {history.length > 0 && (
+        <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-1 mb-4">
+          <>
+            <div className="flex justify-between mb-4 items-center">
+              <label htmlFor="outputText" className="block font-bold mb-2">
+                History
+              </label>
+              <button
+                type="button"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-15 h-10"
+                onClick={() => setShowHistory(!showHistory)}
+              >
+                {showHistory ? "Hide" : "Show"}
+              </button>
+            </div>
 
-        {history.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-1 mb-4">
-            <>
-              <div className="flex justify-between mb-4 items-center">
-                <label htmlFor="outputText" className="block font-bold mb-2">
-                  History
-                </label>
-                <button
-                  type="button"
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-15 h-10"
-                  onClick={() => setShowHistory(!showHistory)}
-                >
-                  {showHistory ? "Hide" : "Show"}
-                </button>
-              </div>
-
-              {showHistory && (
-                <>
-                  {history.length > 0 &&
-                    history.map((entry: IHistory, index: number) => (
-                      <div key={index} className="flex justify-between mb-4">
-                        <SyntaxHighlighter
-                          language="sql"
-                          style={isThemeDark ? dracula : vs}
-                          wrapLines={true}
-                          showLineNumbers={true}
-                          lineNumberStyle={{
-                            color: isThemeDark ? "gray" : "#ccc",
-                          }}
-                          customStyle={{
-                            maxHeight: "none",
-                            height: "auto",
-                            overflow: "visible",
-                            wordWrap: "break-word",
-                            color: "inherit",
-                            backgroundColor: isThemeDark ? "#374151" : "#fff",
-                            borderColor: "#6b7280",
-                            borderRadius: 4,
-                            borderWidth: 1,
-                          }}
-                          lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-                          startingLineNumber={index + 1}
-                        >
-                          {JSON.parse(entry?.inputText)}
-                        </SyntaxHighlighter>
-                        <FontAwesomeIcon
-                          onClick={() => handleEdit(entry)}
-                          icon={faPencil}
-                          className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
-                        />
-                      </div>
-                    ))}
-                </>
-              )}
-            </>
-          </div>
-        )}
-      </main>
+            {showHistory && (
+              <>
+                {history.length > 0 &&
+                  history.map((entry: IHistory, index: number) => (
+                    <div key={index} className="flex justify-between mb-4">
+                      <SyntaxHighlighter
+                        language="sql"
+                        style={isThemeDark ? dracula : vs}
+                        wrapLines={true}
+                        showLineNumbers={true}
+                        lineNumberStyle={{
+                          color: isThemeDark ? "gray" : "#ccc",
+                        }}
+                        customStyle={{
+                          maxHeight: "none",
+                          height: "auto",
+                          overflow: "visible",
+                          wordWrap: "break-word",
+                          color: "inherit",
+                          backgroundColor: isThemeDark ? "#374151" : "#fff",
+                          borderColor: "#6b7280",
+                          borderRadius: 4,
+                          borderWidth: 1,
+                        }}
+                        lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                        startingLineNumber={index + 1}
+                      >
+                        {JSON.parse(entry?.inputText)}
+                      </SyntaxHighlighter>
+                      <FontAwesomeIcon
+                        onClick={() => handleEdit(entry)}
+                        icon={faPencil}
+                        className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
+                      />
+                    </div>
+                  ))}
+              </>
+            )}
+          </>
+        </div>
+      )}
       <Analytics />
       <Footer />
     </div>
