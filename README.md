@@ -51,9 +51,10 @@ You can press the 'reverse' button to give input as Natural Language and get SQL
     OPENAI_API_KEY=$YOUR_API_KEY
     ```
 
-4. Start the development server:
+4. Start the server:
 
     ```bash
+    npm run build
     npm start
     ```
 
