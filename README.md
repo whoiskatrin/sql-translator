@@ -54,7 +54,7 @@ You can press the 'reverse' button to give input as Natural Language and get SQL
 4. Start the development server:
 
     ```bash
-    npm start
+    npm run dev
     ```
 
 ## Usage
