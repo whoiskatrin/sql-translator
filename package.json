@@ -28,13 +28,15 @@
     "react-hot-toast": "^2.4.0",
     "react-syntax-highlighter": "^15.5.0",
     "react-use-measure": "^2.1.1",
-    "redis": "^4.6.5"
+    "redis": "^4.6.5",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "@types/react-syntax-highlighter": "^15.5.6",
+    "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "autoprefixer": "^10.4.12",

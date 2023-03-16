@@ -19,6 +19,7 @@ import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
 import { useTheme } from "next-themes";
 import Toggle from "../components/Toggle";
+import Header from "../components/Header";
 
 interface IHistory {
   inputText: string;
@@ -133,29 +134,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
+      <Header />
       <Head>
-        <title>
+        <title className="flex justify-between items-center w-full mt-5 pb-7 sm:px-4 px-2">
           {isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}
         </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="max-w-lg mx-auto my-12 px-4">
         <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-        <div className="flex items-center justify-center">
-          <a
-            className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-600 text-white px-5 py-2 text-sm shadow-md hover:bg-blue-500 bg-blue-600 font-medium transition"
-            href="https://github.com/whoiskatrin/sql-translator"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Github />
-            <p>Star on GitHub</p>
-          </a>
-        </div>
-
-        <h1 className="text-3xl font-bold text-center mt-4 mb-8">
-          {isHumanToSql ? "Human to SQL Translator" : "SQL to Human Translator"}
-        </h1>
 
         <form
           onSubmit={(event) => handleSubmit(event)}
