@@ -9,11 +9,11 @@ export default function Header() {
         <h1 className="font-mono sm:text-4xl text-2xl font-bold ml-2 tracking-tight">
           sqlTranslate
         </h1>
-        <p>Human to SQL Translator</p>
+        <p className="font-mono">Human to SQL Translator</p>
       </Link>
       <div className="flex items-center justify-center space-x-4">
         <a
-          className="flex items-center justify-center space-x-2 rounded-full border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition"
+          className="font-mono flex items-center justify-center space-x-2 rounded-full border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition"
           href="https://github.com/whoiskatrin/sql-translator"
           target="_blank"
           rel="noopener noreferrer"

@@ -94,12 +94,6 @@ export default function Home() {
     setOutputText("");
   };
 
-  const handleClear = () => {
-    setInputText("");
-    setOutputText("");
-    setTableSchema("");
-  };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -142,17 +136,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-      <div className="flex flex-wrap gap-1 items-start justify-center">
+      <div className="flex flex-col md:flex-row items-start justify-center w-full max-w-screen-xl px-4 md:space-x-4">
         <form
           onSubmit={(event) => handleSubmit(event)}
-          className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-auto ml-20"
+          className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto"
         >
           <div className="flex flex-col mb-4">
             <label htmlFor="inputText" className="block font-bold mb-2">
               {isHumanToSql ? "Human Language" : "SQL"}
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border-white rounded-lg w-full py-2 px-3 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="inputText"
               rows={3}
               placeholder={
@@ -198,20 +192,40 @@ export default function Home() {
           )}
 
           {isHumanToSql && (
-            <div className="flex items-center mb-4">
-              <input
-                id="showTableSchema"
-                type="checkbox"
-                checked={showTableSchema}
-                onChange={() => {
+            <div className="flex items-center justify-between mb-4 space-x-10">
+              <button
+                className={`rounded-full flex items-center justify-center space-x-4 border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition ${
+                  showTableSchema ? "bg-blue-500" : "bg-gray-200"
+                } px-4 py-2 rounded-full`}
+                onClick={() => {
                   setShowTableSchema(!showTableSchema);
                   if (!showTableSchema) {
                     setTableSchema("");
                   }
                 }}
-                className="mr-2"
-              />
-              <label htmlFor="showTableSchema">Add Schema</label>
+              >
+                {showTableSchema ? "Remove Schema" : "Add Schema"}
+              </button>
+
+              <button
+                type="submit"
+                className={`cursor-pointer border-none py-2 px-4 bg-transparent rounded-full border bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start ${
+                  translating && "opacity-50 pointer-events-none"
+                }`}
+                disabled={translating}
+              >
+                <img src="/stars.svg"></img>
+                <div className="relative text-sm font-semibold font-inter text-white text-center inline-block mx-auto">
+                  {translating ? (
+                    <>
+                      Translating
+                      <LoadingDots color="white" />
+                    </>
+                  ) : (
+                    `Generate ${isHumanToSql ? "SQL" : "Natural Language"}`
+                  )}
+                </div>
+              </button>
             </div>
           )}
 
@@ -236,53 +250,24 @@ export default function Home() {
               />
             </div>
           )}
-
-          <button
-            type="submit"
-            className={`cursor-pointer border-none py-2 px-4 bg-transparent rounded-7xl bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start ${
-              translating && "opacity-50 pointer-events-none"
-            }`}
-            disabled={translating}
-          >
-            <img src="/stars.svg"></img>
-            <div className="relative text-sm font-semibold font-inter text-white text-center inline-block mx-auto">
-              {translating ? (
-                <>
-                  Translating
-                  <LoadingDots color="white" />
-                </>
-              ) : (
-                `Generate ${isHumanToSql ? "SQL" : "Natural Language"}`
-              )}
-            </div>
-          </button>
         </form>
 
-        <div className="flex justify-between">
-          <div className="flex items-center">
-            <button
-              className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer}`}
-              onClick={() => {
-                setIsHumanToSql(!isHumanToSql);
-                setOutputText("");
-              }}
-            >
-              <img src="/switch.svg" alt="Switch" />
-            </button>
-          </div>
+        <div className="flex flex-col items-center justify-center mb-4 md:mx-4 py-8 md:py-20">
+          <button
+            className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer`}
+            onClick={() => {
+              setIsHumanToSql(!isHumanToSql);
+              setOutputText("");
+            }}
+          >
+            <img src="/switch.svg" alt="Switch" className="w-12 h-12" />
+          </button>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-auto ml-20">
+        <div className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
           <label htmlFor="outputText" className="block font-bold mb-2">
             {isHumanToSql ? "SQL" : "Human Language"}
           </label>
-          {isHumanToSql && (
-            <Toggle
-              isUppercase={isOutputTextUpperCase}
-              handleSwitchText={setIsOutputTextUpperCase}
-            />
-          )}
-
           {isHumanToSql ? (
             <SyntaxHighlighter
               language="sql"
@@ -310,7 +295,7 @@ export default function Home() {
           ) : (
             <textarea
               readOnly
-              className="h-auto shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="h-auto shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               rows={3}
               value={
                 isOutputTextUpperCase
@@ -319,13 +304,24 @@ export default function Home() {
               }
             />
           )}
-          <FontAwesomeIcon
-            onClick={handleCopy}
-            icon={faCopy}
-            className="text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer text-xs icon-size-30 w-4 h-4 mr-2 mt-3 hover:scale-110 transition"
-          />
+          <div className="flex items-center mt-10">
+            <button
+              className="flex items-center justify-center space-x-4 rounded-full border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition"
+              onClick={handleCopy}
+            >
+              <img src="/copyDark.svg" alt="Copy" />
+            </button>
+            {isHumanToSql && (
+              <div className="ml-4">
+                <Toggle
+                  isUppercase={isOutputTextUpperCase}
+                  handleSwitchText={setIsOutputTextUpperCase}
+                />
+              </div>
+            )}
+          </div>
           {isCopied && (
-            <p className="text-blue-500 text-sm">Copied to clipboard!</p>
+            <p className="text-black-500 text-xs">Copied to clipboard</p>
           )}
           <textarea
             className="hidden"
@@ -339,16 +335,20 @@ export default function Home() {
           />
         </div>
       </div>
+
       {history.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md rounded px-8 pt-6 pb-1 mb-4">
+        <div className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
           <>
             <div className="flex justify-between mb-4 items-center">
-              <label htmlFor="outputText" className="block font-bold mb-2">
+              <label
+                htmlFor="outputText"
+                className="block font-mono font-bold mb-2"
+              >
                 History
               </label>
               <button
                 type="button"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-15 h-10"
+                className="cursor-pointer border-none py-2 px-4 font-mono bg-transparent rounded-full border text-white bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start"
                 onClick={() => setShowHistory(!showHistory)}
               >
                 {showHistory ? "Hide" : "Show"}
