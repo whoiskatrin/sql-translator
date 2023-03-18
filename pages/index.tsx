@@ -3,9 +3,6 @@ import dynamic from "next/dynamic";
 const SyntaxHighlighter = dynamic(() => import("react-syntax-highlighter"));
 import { vs, dracula } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Head from "next/head";
-import Github from "../components/GitHub";
-import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Analytics } from "@vercel/analytics/react";
 import Footer from "../components/Footer";
 import ThemeButton from "../components/ThemeButton";
@@ -19,7 +16,7 @@ import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
 import { useTheme } from "next-themes";
 import Toggle from "../components/Toggle";
-import Header from "../components/Header";
+import { Header } from "../components/Header/Header";
 
 interface IHistory {
   inputText: string;
