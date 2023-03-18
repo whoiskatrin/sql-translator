@@ -27,37 +27,25 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className="flex justify-between items-center w-full mt-5 pb-7 sm:px-4 px-2">
-      <Link href="/" className="flex flex-col space-x-3">
-        <h1 className="font-mono sm:text-4xl text-2xl font-bold ml-2 tracking-tight">
+    <header className="flex flex-col sm:flex-row sm:justify-between w-full pb-7 gap-3">
+      <Link href="/" className="flex flex-col">
+        <h1 className="font-mono sm:text-xl tracking-tight">
           sqlTranslate
         </h1>
-        <p className="font-mono">Human to SQL Translator</p>
+        <p>Human to SQL Translator</p>
       </Link>
-      <div className="flex items-center justify-center space-x-4">
+      <div className="flex items-center gap-3">
         <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-        <div className="flex items-center justify-center">
-          <a
-            className="group"
+        <div className="border border-solid py-2 px-6 rounded-full border-gray-700">
+        <a
+            className="group flex gap-2 font-semibold text-sm"
             href="https://github.com/whoiskatrin/sql-translator"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="flex max-w-fit items-center justify-center space-x-2 rounded-full border border-blue-600 text-white px-5 py-2 text-sm shadow-md group-hover:bg-blue-500 bg-blue-600 font-medium transition">
-              <Github />
-              <p>Star on GitHub</p>
-            </div>
-            <div className="flex justify-around border-2 mx-auto border-blue-600 rounded-b-xl w-4/5 text-xs font-semibold -translate-y-1 pb-2 pt-2 group-hover:border-blue-500 transition">
-              <div className="flex space-x-1">
-                <Star className="fill-gray-700 dark:fill-gray-200 w-4 h-4 transition" />
-                <p>{stargazers}</p>
-              </div>
-              <div className="flex space-x-1">
-                <Fork className="fill-gray-700 dark:fill-gray-200 w-4 h-4 transition" />
-                <p>{forks}</p>
-              </div>
-            </div>
-          </a>
+            <Github />
+            <p>Star on github</p>
+            </a>
         </div>
         <div className="flex items-center justify-center space-x-2 rounded-full border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition">
           <Link

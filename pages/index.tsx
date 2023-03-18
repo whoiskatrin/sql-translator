@@ -133,18 +133,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-      <div className="flex flex-col md:flex-row items-start justify-center w-full max-w-screen-xl px-4 md:space-x-4">
-        <div className="flex w-full md:w-auto">
-          <form
-            onSubmit={(event) => handleSubmit(event)}
-            className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto"
+      
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black border border-solid dark:border-gray-900 rounded-xl p-3">
+        <div className="w-full">
+          <form onSubmit={(event) => handleSubmit(event)}
+            className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md p-6 w-full"
           >
-            <div className="flex flex-col mb-4">
-              <label htmlFor="inputText" className="block font-bold mb-2">
+            <div>
+              <label htmlFor="inputText" className="block mb-2">
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
-                className="shadow appearance-none border-white rounded-lg w-full py-2 px-3 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border-white rounded-lg w-full py-2 px-3 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 dark:text-gray-700 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="inputText"
                 rows={3}
                 placeholder={
@@ -164,10 +164,9 @@ export default function Home() {
                 }}
                 required
               />
-            </div>
             {tableSchema && showTableSchema && (
               <div className="mt-4">
-                <h2 className="font-bold text-lg mb-2">Table Schema</h2>
+                <h2 className="text-lg mb-2">Table Schema</h2>
                 <SyntaxHighlighter
                   language="sql"
                   style={isThemeDark ? dracula : vs}
@@ -232,7 +231,7 @@ export default function Home() {
 
             {isHumanToSql && showTableSchema && (
               <div className="flex flex-col mb-4">
-                <label htmlFor="tableSchema" className="block font-bold mb-2">
+                <label htmlFor="tableSchema" className="block mb-2">
                   Table Schema (optional)
                 </label>
                 <textarea
@@ -251,24 +250,25 @@ export default function Home() {
                 />
               </div>
             )}
+            </div>
           </form>
         </div>
-
-        <div className="flex flex-col items-center justify-center mb-4 md:mx-4 py-8 md:py-20">
+        <div>
+        <div className="flex items-center md:h-full">
           <button
-            className={`text-gray-700 dark:text-gray-200 font-bold ml-2 cursor-pointer`}
+            className={`text-gray-700 dark:text-gray-200 cursor-pointer mx-auto`}
             onClick={() => {
               setIsHumanToSql(!isHumanToSql);
               setOutputText("");
             }}
           >
-            <img src="/switch.svg" alt="Switch" className="w-12 h-12" />
+            <img src="/switch.svg" alt="Switch" className="w-12 h-12 md:w-24 md:h-24" />
           </button>
         </div>
-
-        <div className="flex w-full md:w-auto">
-          <div className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
-            <label htmlFor="outputText" className="block font-bold mb-2">
+        </div>
+        <div className="w-full">
+        <div className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
+            <label htmlFor="outputText" className="block mb-2">
               {isHumanToSql ? "SQL" : "Human Language"}
             </label>
             {isHumanToSql ? (
@@ -401,7 +401,6 @@ export default function Home() {
         </div>
       )} */}
       <Analytics />
-      <Footer />
     </div>
   );
 }
