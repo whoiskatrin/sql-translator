@@ -4,7 +4,7 @@ Welcome to the SQL and Natural Language Translator! This tool is designed to mak
 
 With the SQL and Natural Language Translator, you don't need to be a SQL expert to understand what's going on in your database, or to write SQL queries. You can simply type in your query in natural language and get the corresponding SQL code, or type in your SQL code and get a human-readable translation.This project is 100% free and open source.
 
-<img src="https://github.com/whoiskatrin/sql-translator/blob/main/latestUI.png" width="600" />
+<img src="https://github.com/whoiskatrin/sql-translator/blob/main/latestUIUpdate.png" width="600" />
 
 ## Features
 
