@@ -191,21 +191,22 @@ export default function Home() {
               </div>
             )}
 
-            {isHumanToSql && (
               <div className="flex items-center justify-between mb-4 space-x-10">
-                <button
-                  className={`rounded-full flex items-center justify-center space-x-4 border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition ${
-                    showTableSchema ? "bg-blue-500" : "bg-gray-200"
-                  } px-4 py-2 rounded-full`}
-                  onClick={() => {
-                    setShowTableSchema(!showTableSchema);
-                    if (!showTableSchema) {
-                      setTableSchema("");
-                    }
-                  }}
-                >
-                  {showTableSchema ? "Remove Schema" : "Add Schema"}
-                </button>
+                {isHumanToSql && (
+                  <button
+                    className={`rounded-full flex items-center justify-center space-x-4 border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition ${
+                      showTableSchema ? "bg-blue-500" : "bg-gray-200"
+                    } px-4 py-2 rounded-full`}
+                    onClick={() => {
+                      setShowTableSchema(!showTableSchema);
+                      if (!showTableSchema) {
+                        setTableSchema("");
+                      }
+                    }}
+                  >
+                    {showTableSchema ? "Remove Schema" : "Add Schema"}
+                  </button>
+                )}
 
                 <button
                   type="submit"
@@ -214,7 +215,7 @@ export default function Home() {
                   }`}
                   disabled={translating}
                 >
-                  <img src="/stars.svg"></img>
+                  <img src="/stars.svg"></img>&nbsp;
                   <div className="relative text-sm font-semibold font-inter text-white text-center inline-block mx-auto">
                     {translating ? (
                       <>
@@ -227,7 +228,6 @@ export default function Home() {
                   </div>
                 </button>
               </div>
-            )}
 
             {isHumanToSql && showTableSchema && (
               <div className="flex flex-col mb-4">
