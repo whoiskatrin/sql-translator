@@ -125,14 +125,14 @@ export default function Home() {
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
 
-      <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black dark:border-gray-800 rounded-xl p-3">
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black dark:border-gray-800 border rounded-3xl from-blue-500 p-3">
         <div className="w-full">
           <form
             onSubmit={(event) => handleSubmit(event)}
             className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full"
           >
             <div>
-              <label htmlFor="inputText" className="block mb-2">
+              <label htmlFor="inputText" className="block mb-2 text-gray-300">
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
@@ -180,7 +180,7 @@ export default function Home() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between mb-4 space-x-10">
+              <div className="flex items-center justify-between mt-1 space-x-10">
                 {isHumanToSql && (
                   <button
                     className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
@@ -260,8 +260,8 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="rounded-xl bg-white dark:bg-custom-dark-gray border dark:border-gray-700 dark:bg-custom-gray shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width sm:w-auto">
-            <label htmlFor="outputText" className="block mb-2">
+          <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full custom-width sm:w-auto">
+            <label htmlFor="outputText" className="block mb-2 text-gray-300">
               {isHumanToSql ? "SQL" : "Human Language"}
             </label>
             <SyntaxHighlighter
@@ -271,6 +271,7 @@ export default function Home() {
               showLineNumbers={true}
               lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
               customStyle={{
+                minHeight: "70px",
                 maxHeight: "none",
                 height: "auto",
                 overflow: "visible",
