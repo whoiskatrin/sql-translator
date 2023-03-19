@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .gradient-bg-w-gradient-border {
+    --blue500: theme(colors.blue.500);
+    --blue700: theme(colors.blue.700);
+    --blue800: theme(colors.blue.800);
+    background: linear-gradient(to bottom right, var(--blue500), var(--blue700))
+        padding-box,
+      linear-gradient(to bottom, var(--blue500), var(--blue800)) border-box;
+    border: 1px solid transparent;
+  }
+}

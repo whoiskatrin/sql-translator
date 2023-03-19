@@ -201,7 +201,7 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className={`cursor-pointer border-none py-2 px-4 bg-transparent rounded-full border bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start ${
+                  className={`cursor-pointer py-2 px-4 rounded-full gradient-bg-w-gradient-border [text-shadow:0_0_1px_rgba(0,0,0,0.25)] shadow-2xl flex flex-row items-center justify-start ${
                     translating && "opacity-50 pointer-events-none"
                   }`}
                   disabled={translating}
