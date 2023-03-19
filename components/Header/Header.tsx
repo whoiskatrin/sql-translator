@@ -30,28 +30,28 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className="flex flex-col sm:flex-row sm:justify-between w-full pb-7 gap-3">
+    <header className="flex flex-col sm:flex-row sm:justify-between w-full pb-8 px-6">
       <Link href="/" className="flex flex-col">
         <h1 className="font-mono sm:text-xl tracking-tight">sqlTranslate</h1>
-        <p>Human to SQL Translator</p>
+        <p className="font-mono font-bold text-gray-600">Human Language to SQL Translator</p>
       </Link>
       <div className="flex items-center gap-3">
         <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
         <a
-          className="py-2 px-6 rounded-full "
+          className="py-2 rounded-full "
           href="https://github.com/whoiskatrin/sql-translator"
           rel="noopener noreferrer"
           target="_blank"
         >
           <div
-            className={`flex items-center justify-center space-x-2 py-2 px-6 rounded-full ${btnBgColor} text-black dark:text-[#D8D8D8] px-5 py-2 text-sm font-medium`}
+            className={`flex items-center justify-center space-x-2 py-2 px-6 rounded-full ${btnBgColor} text-black dark:text-[#D8D8D8] text-sm font-medium`}
           >
             <Github />
             <p>Star on GitHub</p>
           </div>
         </a>
         <a
-          className={`flex items-center justify-center space-x-2 py-2 px-6 rounded-full ${btnBgColor} text-black px-5 py-2 text-sm font-medium transition`}
+          className={`flex items-center justify-center space-x-2 py-2 px-6 rounded-full ${btnBgColor} text-black text-sm font-medium transition`}
           href="https://twitter.com/whoiskatrin"
           rel="noopener noreferrer"
           target="_blank"
