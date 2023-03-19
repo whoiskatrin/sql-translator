@@ -133,10 +133,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-      
+
       <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black border border-solid dark:border-gray-900 rounded-xl p-3">
         <div className="w-full">
-          <form onSubmit={(event) => handleSubmit(event)}
+          <form
+            onSubmit={(event) => handleSubmit(event)}
             className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md p-6 w-full"
           >
             <div>
@@ -164,32 +165,32 @@ export default function Home() {
                 }}
                 required
               />
-            {tableSchema && showTableSchema && (
-              <div className="mt-4">
-                <h2 className="text-lg mb-2">Table Schema</h2>
-                <SyntaxHighlighter
-                  language="sql"
-                  style={isThemeDark ? dracula : vs}
-                  wrapLines={true}
-                  showLineNumbers={true}
-                  lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
-                  customStyle={{
-                    maxHeight: "none",
-                    height: "auto",
-                    overflow: "visible",
-                    wordWrap: "break-word",
-                    color: "inherit",
-                    backgroundColor: isThemeDark ? "#374151" : "#fff",
-                    borderColor: "#6b7280",
-                    borderRadius: 4,
-                    borderWidth: 1,
-                  }}
-                  lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-                >
-                  {tableSchema}
-                </SyntaxHighlighter>
-              </div>
-            )}
+              {tableSchema && showTableSchema && (
+                <div className="mt-4">
+                  <h2 className="text-lg mb-2">Table Schema</h2>
+                  <SyntaxHighlighter
+                    language="sql"
+                    style={isThemeDark ? dracula : vs}
+                    wrapLines={true}
+                    showLineNumbers={true}
+                    lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+                    customStyle={{
+                      maxHeight: "none",
+                      height: "auto",
+                      overflow: "visible",
+                      wordWrap: "break-word",
+                      color: "inherit",
+                      backgroundColor: isThemeDark ? "#374151" : "#fff",
+                      borderColor: "#6b7280",
+                      borderRadius: 4,
+                      borderWidth: 1,
+                    }}
+                    lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                  >
+                    {tableSchema}
+                  </SyntaxHighlighter>
+                </div>
+              )}
 
               <div className="flex items-center justify-between mb-4 space-x-10">
                 {isHumanToSql && (
@@ -229,85 +230,80 @@ export default function Home() {
                 </button>
               </div>
 
-            {isHumanToSql && showTableSchema && (
-              <div className="flex flex-col mb-4">
-                <label htmlFor="tableSchema" className="block mb-2">
-                  Table Schema (optional)
-                </label>
-                <textarea
-                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  id="tableSchema"
-                  rows={3}
-                  placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"
-                  value={tableSchema}
-                  autoFocus
-                  onChange={(event) => setTableSchema(event.target.value)}
-                  onBlur={() => {
-                    if (!showTableSchema) {
-                      setTableSchema("");
-                    }
-                  }}
-                />
-              </div>
-            )}
+              {isHumanToSql && showTableSchema && (
+                <div className="flex flex-col mb-4">
+                  <label htmlFor="tableSchema" className="block mb-2">
+                    Table Schema (optional)
+                  </label>
+                  <textarea
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="tableSchema"
+                    rows={3}
+                    placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"
+                    value={tableSchema}
+                    autoFocus
+                    onChange={(event) => setTableSchema(event.target.value)}
+                    onBlur={() => {
+                      if (!showTableSchema) {
+                        setTableSchema("");
+                      }
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </form>
         </div>
         <div>
-        <div className="flex items-center md:h-full">
-          <button
-            className={`text-gray-700 dark:text-gray-200 cursor-pointer mx-auto`}
-            onClick={() => {
-              setIsHumanToSql(!isHumanToSql);
-              setOutputText("");
-            }}
-          >
-            <img src="/switch.svg" alt="Switch" className="w-12 h-12 md:w-24 md:h-24" />
-          </button>
-        </div>
+          <div className="flex items-center md:h-full">
+            <button
+              className={`text-gray-700 dark:text-gray-200 cursor-pointer mx-auto`}
+              onClick={() => {
+                setIsHumanToSql(!isHumanToSql);
+                setOutputText("");
+              }}
+            >
+              <img
+                src="/switch.svg"
+                alt="Switch"
+                className="w-12 h-12 md:w-24 md:h-24"
+              />
+            </button>
+          </div>
         </div>
         <div className="w-full">
-        <div className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
+          <div className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
             <label htmlFor="outputText" className="block mb-2">
               {isHumanToSql ? "SQL" : "Human Language"}
             </label>
-            {isHumanToSql ? (
-              <SyntaxHighlighter
-                language="sql"
-                style={isThemeDark ? dracula : vs}
-                wrapLines={true}
-                showLineNumbers={true}
-                lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
-                customStyle={{
-                  maxHeight: "none",
-                  height: "auto",
-                  overflow: "visible",
-                  wordWrap: "break-word",
-                  color: "inherit",
-                  backgroundColor: isThemeDark ? "#374151" : "#fff",
-                  borderColor: "#6b7280",
-                  borderRadius: 4,
-                  borderWidth: 1,
-                }}
-                lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-              >
-                {isOutputTextUpperCase
-                  ? outputText.toUpperCase()
-                  : outputText.toLowerCase()}
-              </SyntaxHighlighter>
-            ) : (
-              <textarea
-                readOnly
-                className="h-auto shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                rows={3}
-                value={
-                  isOutputTextUpperCase
-                    ? outputText.toUpperCase()
-                    : outputText.toLowerCase()
-                }
-              />
-            )}
-            <div className="flex items-center mt-10">
+            <SyntaxHighlighter
+              language="sql"
+              style={isThemeDark ? dracula : vs}
+              wrapLines={true}
+              showLineNumbers={true}
+              lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+              customStyle={{
+                maxHeight: "none",
+                height: "auto",
+                overflow: "visible",
+                wordWrap: "break-word",
+                color: "inherit",
+                backgroundColor: isThemeDark ? "#374151" : "#fff",
+                borderColor: "#6b7280",
+                borderRadius: 4,
+                borderWidth: 1,
+              }}
+              lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+            >
+              {isOutputTextUpperCase
+                ? outputText.toUpperCase()
+                : outputText.toLowerCase() ||
+                  (isHumanToSql
+                    ? "SELECT * FROM cars WHERE color = 'red'"
+                    : "show me all the cars that are red")}
+            </SyntaxHighlighter>
+
+            <div className="flex items-center mt-5">
               <button
                 className="flex items-center justify-center space-x-4 rounded-full border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition"
                 onClick={handleCopy}
