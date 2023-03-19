@@ -272,7 +272,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
+          <div className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width sm:w-auto">
             <label htmlFor="outputText" className="block mb-2">
               {isHumanToSql ? "SQL" : "Human Language"}
             </label>
