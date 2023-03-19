@@ -78,8 +78,8 @@ export default function Home() {
   };
 
   const buttonStyles = {
-    light: "bg-gradient-to-r from-gray-50 to-gray-100 text-black",
-    dark: "bg-black text-white",
+    light: "light-button-w-gradient-border text-black",
+    dark: "dark-button-w-gradient-border text-[#D8D8D8]",
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -183,9 +183,7 @@ export default function Home() {
               <div className="flex items-center justify-between mb-4 space-x-10">
                 {isHumanToSql && (
                   <button
-                    className={`rounded-full flex items-center justify-center space-x-4 border px-5 py-2 text-sm font-medium transition ${
-                      showTableSchema ? "bg-custom-gray" : "bg-custom-gray"
-                    } px-4 py-2 rounded-full ${
+                    className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
                       theme === "light" ? buttonStyles.light : buttonStyles.dark
                     }`}
                     onClick={() => {
@@ -201,7 +199,7 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className={`cursor-pointer border-none py-2 px-4 bg-transparent rounded-full border bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start ${
+                  className={`cursor-pointer py-2 px-4 rounded-full blue-button-w-gradient-border [text-shadow:0_0_1px_rgba(0,0,0,0.25)] shadow-2xl flex flex-row items-center justify-start ${
                     translating && "opacity-50 pointer-events-none"
                   }`}
                   disabled={translating}
@@ -254,7 +252,7 @@ export default function Home() {
               }}
             >
               <img
-                src="/switch.svg"
+                src={theme === "light" ? "/switch.svg" : "/switchDark.svg"}
                 alt="Switch"
                 className="w-12 h-12 md:w-24 md:h-24"
               />
@@ -292,7 +290,7 @@ export default function Home() {
 
             <div className="flex items-center mt-5">
               <button
-                className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full border px-5 py-2 text-sm font-medium transition ${
+                className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
                   theme === "light" ? buttonStyles.light : buttonStyles.dark
                 }`}
                 onClick={handleCopy}

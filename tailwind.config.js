@@ -12,12 +12,12 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        'custom-gray': '#171717',
-        'custom-dark-gray': '#1D1D1D',
-        'frame-gray': 'EEEEEE'
+        "custom-gray": "#171717",
+        "custom-dark-gray": "#1D1D1D",
+        "frame-gray": "EEEEEE",
       },
       borderColor: {
-        'custom-gray': '#171717',
+        "custom-gray": "#171717",
       },
     },
   },
