@@ -132,7 +132,10 @@ export default function Home() {
             className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray p-3 h-full w-full"
           >
             <div className="flex flex-col h-full">
-              <label htmlFor="inputText" className="block font-medium mb-2">
+              <label
+                htmlFor="inputText"
+                className="block font-medium mb-2 text-gray-700 dark:text-gray-200"
+              >
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
@@ -228,7 +231,7 @@ export default function Home() {
                     className="block mb-2 text-sm font-medium text-gray-500"
                   >
                     Table Schema Input
-                    <span className="ml-2 text-blue-600 bg-blue-50 text-xs px-[4px] py-1 rounded-md">
+                    <span className="ml-2 text-blue-600 bg-blue-50 dark:bg-blue-900/50 text-xs px-[4px] py-1 rounded-md">
                       Optional
                     </span>
                   </label>
@@ -271,7 +274,10 @@ export default function Home() {
         <div className="w-full">
           <div className="flex flex-col rounded-xl bg-white  border dark:border-gray-700 dark:bg-custom-gray p-3 h-full w-full custom-width sm:w-auto">
             <div className="flex flex-col flex-1">
-              <label htmlFor="outputText" className="block mb-2 font-medium">
+              <label
+                htmlFor="outputText"
+                className="block mb-2 font-medium  text-gray-700 dark:text-gray-200"
+              >
                 {isHumanToSql ? "SQL" : "Human Language"}
               </label>
               <SyntaxHighlighter
