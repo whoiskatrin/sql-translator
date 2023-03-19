@@ -11,9 +11,16 @@ import LoadingDots from "../components/LoadingDots";
 import { useTheme } from "next-themes";
 import Toggle from "../components/Toggle";
 import { Header } from "../components/Header/Header";
-
 interface IHistory {
   inputText: string;
+  outputText: string;
+  tableSchema?: string;
+  isHumanToSql?: boolean;
+}
+
+interface IHistoryEntry {
+  inputText: string;
+  outputText: string;
   tableSchema?: string;
   isHumanToSql?: boolean;
 }
@@ -37,6 +44,30 @@ export default function Home() {
   const [showTableSchema, setShowTableSchema] = useState(false);
   const [history, setHistory] = useState<IHistory[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [hasTranslated, setHasTranslated] = useState(false);
+
+  useEffect(() => {
+    if (inputText && hasTranslated) {
+      setHistory((prevHistory) => [
+        ...prevHistory,
+        {
+          inputText: JSON.stringify(inputText),
+          outputText: JSON.stringify(outputText),
+          tableSchema,
+          isHumanToSql,
+        },
+      ]);
+
+      addHistoryEntry({
+        inputText: JSON.stringify(inputText),
+        tableSchema,
+        isHumanToSql,
+        outputText: JSON.stringify(outputText),
+      });
+
+      setHasTranslated(false);
+    }
+  }, [outputText]);
 
   useEffect(() => {
     setMounted(true);
@@ -61,6 +92,15 @@ export default function Home() {
     if (history.some(({ inputText }) => inputText === entry.inputText)) return;
     setHistory([...history, entry]);
   };
+
+  function safeJSONParse(str: string) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      console.error("JSON parse error:", e);
+      return null;
+    }
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
@@ -101,13 +141,8 @@ export default function Home() {
         return;
       }
 
-      addHistoryEntry({
-        inputText: JSON.stringify(inputText),
-        tableSchema,
-        isHumanToSql,
-      });
-
       translate({ inputText, tableSchema, isHumanToSql });
+      setHasTranslated(true);
     } catch (error) {
       console.log(error);
       toast.error(`Error translating ${isHumanToSql ? "to SQL" : "to human"}.`);
@@ -272,7 +307,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="flex flex-col rounded-xl bg-white dark:bg-custom-gray container-w-gradient-border dark:dark-container-w-gradient-border p-3 h-full w-full custom-width sm:w-auto">
+          <div className="flex flex-col rounded-xl bg-white  border dark:border-gray-700 dark:bg-custom-gray p-3 h-full w-full custom-width sm:w-auto">
             <div className="flex flex-col flex-1">
               <label
                 htmlFor="outputText"
@@ -281,7 +316,7 @@ export default function Home() {
                 {isHumanToSql ? "SQL" : "Human Language"}
               </label>
               <SyntaxHighlighter
-                language="sql"
+                language={isHumanToSql ? "sql" : "text"}
                 style={isThemeDark ? dracula : vs}
                 wrapLines={true}
                 showLineNumbers={true}
@@ -346,66 +381,116 @@ export default function Home() {
         </div>
       </div>
 
-      {/* {history.length > 0 && ( // TODO: redo this with a new design
-        <div className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
-          <>
-            <div className="flex justify-between mb-4 items-center">
-              <label
-                htmlFor="outputText"
-                className="block font-mono font-bold mb-2"
-              >
-                History
-              </label>
-              <button
-                type="button"
-                className="cursor-pointer border-none py-2 px-4 font-mono bg-transparent rounded-full border text-white bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start"
-                onClick={() => setShowHistory(!showHistory)}
-              >
-                {showHistory ? "Hide" : "Show"}
-              </button>
-            </div> */}
+      {history.length > 0 && (
+        <button
+          className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium mt-2 mb-2 px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
+            theme === "light" ? buttonStyles.light : buttonStyles.dark
+          }`}
+          onClick={() => setShowHistory(!showHistory)}
+        >
+          {showHistory ? "Hide History" : "Show History"}
+        </button>
+      )}
 
-      {/* {showHistory && ( 
-              <>
-                {history.length > 0 &&
-                  history.map((entry: IHistory, index: number) => (
-                    <div key={index} className="flex justify-between mb-4">
-                      <SyntaxHighlighter
-                        language="sql"
-                        style={isThemeDark ? dracula : vs}
-                        wrapLines={true}
-                        showLineNumbers={true}
-                        lineNumberStyle={{
-                          color: isThemeDark ? "gray" : "#ccc",
-                        }}
-                        customStyle={{
-                          maxHeight: "none",
-                          height: "auto",
-                          overflow: "visible",
-                          wordWrap: "break-word",
-                          color: "inherit",
-                          backgroundColor: isThemeDark ? "#374151" : "#fff",
-                          borderColor: "#6b7280",
-                          borderRadius: 4,
-                          borderWidth: 1,
-                        }}
-                        lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-                        startingLineNumber={index + 1}
+      {showHistory && (
+        <>
+          {history.length > 0 &&
+            history.map((entry: IHistoryEntry, index: number) => (
+              <div key={index} className="w-full mb-6">
+                <div className="flex flex-col md:flex-row w-full gap-6 bg-custom-background bg-gray-100 dark:bg-black dark:border-gray-800 border rounded-3xl from-blue-500 p-3">
+                  <div className="w-full">
+                    <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full">
+                      <label
+                        htmlFor="inputText"
+                        className="block mb-2 text-gray-300"
                       >
-                        {JSON.parse(entry?.inputText)}
-                      </SyntaxHighlighter>
-                      <FontAwesomeIcon
-                        onClick={() => handleEdit(entry)}
-                        icon={faPencil}
-                        className="text-gray-700 hover:text-blue-700 dark:text-gray-200 ml-2 text-xs icon-size-1 w-4 h-4 mt-2"
-                      />
+                        {entry.isHumanToSql ? "Human Language" : "SQL"}
+                      </label>
+                      {entry.isHumanToSql ? (
+                        <div
+                          className={`${
+                            isThemeDark ? "text-white" : "text-black"
+                          } whitespace-pre-wrap`}
+                        >
+                          {safeJSONParse(entry?.inputText)}
+                        </div>
+                      ) : (
+                        <SyntaxHighlighter
+                          language="sql"
+                          style={isThemeDark ? dracula : vs}
+                          wrapLines={true}
+                          showLineNumbers={true}
+                          lineNumberStyle={{
+                            color: isThemeDark ? "gray" : "#ccc",
+                          }}
+                          customStyle={{
+                            minHeight: "70px",
+                            maxHeight: "none",
+                            height: "auto",
+                            overflow: "visible",
+                            wordWrap: "break-word",
+                            color: "inherit",
+                            backgroundColor: isThemeDark
+                              ? "#1D1D1D"
+                              : "#F8F8F8",
+                          }}
+                          lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                        >
+                          {safeJSONParse(entry?.inputText)}
+                        </SyntaxHighlighter>
+                      )}
                     </div>
-                  ))}
-              </>
-            )} */}
-      {/* </>
-        </div>
-      )} */}
+                  </div>
+
+                  <div className="w-full">
+                    <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full">
+                      <label
+                        htmlFor="outputText"
+                        className="block mb-2 text-gray-300"
+                      >
+                        {entry.isHumanToSql ? "SQL" : "Human Language"}
+                      </label>
+                      {entry.isHumanToSql ? (
+                        <SyntaxHighlighter
+                          language="sql"
+                          style={isThemeDark ? dracula : vs}
+                          wrapLines={true}
+                          showLineNumbers={true}
+                          lineNumberStyle={{
+                            color: isThemeDark ? "gray" : "#ccc",
+                          }}
+                          customStyle={{
+                            minHeight: "70px",
+                            maxHeight: "none",
+                            height: "auto",
+                            overflow: "visible",
+                            wordWrap: "break-word",
+                            color: "inherit",
+                            backgroundColor: isThemeDark
+                              ? "#1D1D1D"
+                              : "#F8F8F8",
+                          }}
+                          lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+                        >
+                          {safeJSONParse(entry?.outputText)}
+                        </SyntaxHighlighter>
+                      ) : (
+                        <div
+                          className={`${
+                            isThemeDark ? "text-white" : "text-black"
+                          } whitespace-pre-wrap`}
+                        >
+                          {safeJSONParse(entry?.outputText)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </>
+      )}
+
       <Analytics />
     </div>
   );
