@@ -125,11 +125,11 @@ export default function Home() {
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
 
-      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:bg-black dark:border-gray-800 rounded-2xl p-2">
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <div className="w-full">
           <form
             onSubmit={(event) => handleSubmit(event)}
-            className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray p-3 h-full w-full"
+            className="rounded-xl bg-white dark:bg-custom-gray container-w-gradient-border dark:dark-container-w-gradient-border p-3 h-full w-full"
           >
             <div className="flex flex-col h-full">
               <label
@@ -272,7 +272,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="flex flex-col rounded-xl bg-white  border dark:border-gray-700 dark:bg-custom-gray p-3 h-full w-full custom-width sm:w-auto">
+          <div className="flex flex-col rounded-xl bg-white dark:bg-custom-gray container-w-gradient-border dark:dark-container-w-gradient-border p-3 h-full w-full custom-width sm:w-auto">
             <div className="flex flex-col flex-1">
               <label
                 htmlFor="outputText"

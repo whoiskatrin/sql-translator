@@ -32,4 +32,18 @@
         border-box;
     border: 1px solid transparent;
   }
+  .container-w-gradient-border {
+    background: linear-gradient(to bottom, white, white) padding-box,
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.19))
+        border-box;
+    border: 1px solid transparent;
+  }
+  .dark-container-w-gradient-border {
+    --background: theme(backgroundColor.custom-gray);
+    background: linear-gradient(to bottom, var(--background), var(--background))
+        padding-box,
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1))
+        border-box;
+    border: 1px solid transparent;
+  }
 }
