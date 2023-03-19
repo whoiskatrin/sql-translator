@@ -9,7 +9,7 @@ const Toggle: React.FC<Props> = ({
 }) => {
   return (
     <div className="flex items-center">
-      <label className="relative inline-flex items-center mb-5 cursor-pointer">
+      <label className="relative inline-flex items-center cursor-pointer">
         <input
           type="checkbox"
           className="sr-only peer"
