@@ -125,18 +125,21 @@ export default function Home() {
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
 
-      <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black dark:border-gray-800 border rounded-3xl from-blue-500 p-3">
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <div className="w-full">
           <form
             onSubmit={(event) => handleSubmit(event)}
-            className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full"
+            className="rounded-xl bg-white dark:bg-custom-gray container-w-gradient-border dark:dark-container-w-gradient-border p-3 h-full w-full"
           >
-            <div>
-              <label htmlFor="inputText" className="block mb-2 text-gray-300">
+            <div className="flex flex-col h-full">
+              <label
+                htmlFor="inputText"
+                className="block font-medium mb-2 text-gray-700 dark:text-gray-200"
+              >
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
-                className="shadow appearance-none border-0 rounded-lg w-full py-2 px-3 dark:bg-custom-dark-gray text-gray-700 dark:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="inputText"
                 rows={3}
                 placeholder={
@@ -158,7 +161,9 @@ export default function Home() {
               />
               {tableSchema && showTableSchema && (
                 <div className="mt-4">
-                  <h2 className="text-lg mb-2">Table Schema</h2>
+                  <h2 className="mb-2 font-medium text-sm text-gray-500">
+                    Table Schema
+                  </h2>
                   <SyntaxHighlighter
                     language="sql"
                     style={isThemeDark ? dracula : vs}
@@ -172,6 +177,7 @@ export default function Home() {
                       wordWrap: "break-word",
                       color: "inherit",
                       backgroundColor: isThemeDark ? "#1D1D1D" : "#F8F8F8",
+                      borderRadius: "0.5rem",
                     }}
                     lineProps={{ style: { whiteSpace: "pre-wrap" } }}
                   >
@@ -180,7 +186,7 @@ export default function Home() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between mt-1 space-x-10">
+              <div className="flex items-center justify-between my-3 last:mb-0 space-x-10">
                 {isHumanToSql && (
                   <button
                     className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
@@ -219,12 +225,18 @@ export default function Home() {
               </div>
 
               {isHumanToSql && showTableSchema && (
-                <div className="flex flex-col mb-4">
-                  <label htmlFor="tableSchema" className="block mb-2">
-                    Table Schema (optional)
+                <div className="flex flex-col mt-2">
+                  <label
+                    htmlFor="tableSchema"
+                    className="block mb-2 text-sm font-medium text-gray-500"
+                  >
+                    Table Schema Input
+                    <span className="ml-2 text-blue-600 bg-blue-50 dark:bg-blue-900/50 text-xs px-[4px] py-1 rounded-md">
+                      Optional
+                    </span>
                   </label>
                   <textarea
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="tableSchema"
                     rows={3}
                     placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"
@@ -260,36 +272,42 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full custom-width sm:w-auto">
-            <label htmlFor="outputText" className="block mb-2 text-gray-300">
-              {isHumanToSql ? "SQL" : "Human Language"}
-            </label>
-            <SyntaxHighlighter
-              language="sql"
-              style={isThemeDark ? dracula : vs}
-              wrapLines={true}
-              showLineNumbers={true}
-              lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
-              customStyle={{
-                minHeight: "70px",
-                maxHeight: "none",
-                height: "auto",
-                overflow: "visible",
-                wordWrap: "break-word",
-                color: "inherit",
-                backgroundColor: isThemeDark ? "#1D1D1D" : "#F8F8F8",
-              }}
-              lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-            >
-              {isOutputTextUpperCase
-                ? outputText.toUpperCase()
-                : outputText.toLowerCase() ||
-                  (isHumanToSql
-                    ? "SELECT * FROM cars WHERE color = 'red'"
-                    : "show me all the cars that are red")}
-            </SyntaxHighlighter>
+          <div className="flex flex-col rounded-xl bg-white dark:bg-custom-gray container-w-gradient-border dark:dark-container-w-gradient-border p-3 h-full w-full custom-width sm:w-auto">
+            <div className="flex flex-col flex-1">
+              <label
+                htmlFor="outputText"
+                className="block mb-2 font-medium  text-gray-700 dark:text-gray-200"
+              >
+                {isHumanToSql ? "SQL" : "Human Language"}
+              </label>
+              <SyntaxHighlighter
+                language="sql"
+                style={isThemeDark ? dracula : vs}
+                wrapLines={true}
+                showLineNumbers={true}
+                lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+                customStyle={{
+                  maxHeight: "none",
+                  height: "auto",
+                  overflow: "visible",
+                  wordWrap: "break-word",
+                  color: "inherit",
+                  backgroundColor: isThemeDark ? "#1D1D1D" : "#F8F8F8",
+                  flex: 1,
+                  borderRadius: "0.5rem",
+                }}
+                lineProps={{ style: { whiteSpace: "pre-wrap" } }}
+              >
+                {isOutputTextUpperCase
+                  ? outputText.toUpperCase()
+                  : outputText.toLowerCase() ||
+                    (isHumanToSql
+                      ? "SELECT * FROM cars WHERE color = 'red'"
+                      : "show me all the cars that are red")}
+              </SyntaxHighlighter>
+            </div>
 
-            <div className="flex items-center mt-5">
+            <div className="flex items-center mt-3">
               <button
                 className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
                   theme === "light" ? buttonStyles.light : buttonStyles.dark
@@ -303,7 +321,7 @@ export default function Home() {
                 />
               </button>
               {isHumanToSql && (
-                <div className="ml-4">
+                <div className="flex items-center ml-4">
                   <Toggle
                     isUppercase={isOutputTextUpperCase}
                     handleSwitchText={setIsOutputTextUpperCase}
