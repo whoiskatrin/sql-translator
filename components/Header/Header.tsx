@@ -8,11 +8,11 @@ export const Header = () => {
   const [stargazers, setStargazers] = useState<string>();
   const [forks, setForks] = useState<string>();
   const { theme } = useTheme();
-  const svgFillColor = theme === "dark" ? "white" : "black";
+  const svgFillColor = theme === "dark" ? "#D8D8D8" : "black";
   const btnBgColor =
     theme === "dark"
-      ? "bg-black-100"
-      : "bg-gradient-to-r from-gray-50 to-gray-100";
+      ? "dark-button-w-gradient-border"
+      : "light-button-w-gradient-border";
 
   useEffect(() => {
     const formatter = Intl.NumberFormat("en", {
@@ -38,18 +38,20 @@ export const Header = () => {
       <div className="flex items-center gap-3">
         <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
         <a
-          className="border border-solid py-2 px-6 rounded-full border-gray-700"
+          className="py-2 px-6 rounded-full "
           href="https://github.com/whoiskatrin/sql-translator"
           rel="noopener noreferrer"
           target="_blank"
         >
-          <div className="group flex gap-2 font-semibold text-sm">
+          <div
+            className={`flex items-center justify-center space-x-2 py-2 px-6 rounded-full ${btnBgColor} text-black dark:text-[#D8D8D8] px-5 py-2 text-sm font-medium`}
+          >
             <Github />
             <p>Star on GitHub</p>
           </div>
         </a>
         <a
-          className={`flex items-center justify-center space-x-2 border border-solid py-2 px-6 rounded-full border-gray-700 ${btnBgColor} text-black px-5 py-2 text-sm font-medium transition`}
+          className={`flex items-center justify-center space-x-2 py-2 px-6 rounded-full ${btnBgColor} text-black px-5 py-2 text-sm font-medium transition`}
           href="https://twitter.com/whoiskatrin"
           rel="noopener noreferrer"
           target="_blank"
