@@ -4,13 +4,7 @@ const SyntaxHighlighter = dynamic(() => import("react-syntax-highlighter"));
 import { vs, dracula } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
-import Footer from "../components/Footer";
 import ThemeButton from "../components/ThemeButton";
-import {
-  faCopy,
-  faTrashAlt,
-  faPencil,
-} from "@fortawesome/free-solid-svg-icons";
 import { useTranslate } from "../hooks/useTranslate";
 import { toast } from "react-hot-toast";
 import LoadingDots from "../components/LoadingDots";
@@ -83,12 +77,9 @@ export default function Home() {
     }, 3000);
   };
 
-  const handleEdit = (entry: IHistory) => {
-    const { inputText, tableSchema, isHumanToSql } = entry;
-    setInputText(JSON.parse(inputText));
-    tableSchema ? setTableSchema(tableSchema) : setTableSchema("");
-    isHumanToSql ? setIsHumanToSql(isHumanToSql) : setIsHumanToSql(false);
-    setOutputText("");
+  const buttonStyles = {
+    light: "light-button-w-gradient-border text-black",
+    dark: "dark-button-w-gradient-border text-[#D8D8D8]",
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -134,18 +125,18 @@ export default function Home() {
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
 
-      <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black border border-solid dark:border-gray-900 rounded-xl p-3">
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-gray-100 dark:bg-black dark:border-gray-800 rounded-xl p-3">
         <div className="w-full">
           <form
             onSubmit={(event) => handleSubmit(event)}
-            className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md p-6 w-full"
+            className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full"
           >
             <div>
               <label htmlFor="inputText" className="block mb-2">
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
-                className="shadow appearance-none border-white rounded-lg w-full py-2 px-3 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 dark:text-gray-700 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border-0 rounded-lg w-full py-2 px-3 dark:bg-custom-dark-gray text-gray-700 dark:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="inputText"
                 rows={3}
                 placeholder={
@@ -180,10 +171,7 @@ export default function Home() {
                       overflow: "visible",
                       wordWrap: "break-word",
                       color: "inherit",
-                      backgroundColor: isThemeDark ? "#374151" : "#fff",
-                      borderColor: "#6b7280",
-                      borderRadius: 4,
-                      borderWidth: 1,
+                      backgroundColor: isThemeDark ? "#1D1D1D" : "#F8F8F8",
                     }}
                     lineProps={{ style: { whiteSpace: "pre-wrap" } }}
                   >
@@ -195,9 +183,9 @@ export default function Home() {
               <div className="flex items-center justify-between mb-4 space-x-10">
                 {isHumanToSql && (
                   <button
-                    className={`rounded-full flex items-center justify-center space-x-4 border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition ${
-                      showTableSchema ? "bg-blue-500" : "bg-gray-200"
-                    } px-4 py-2 rounded-full`}
+                    className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
+                      theme === "light" ? buttonStyles.light : buttonStyles.dark
+                    }`}
                     onClick={() => {
                       setShowTableSchema(!showTableSchema);
                       if (!showTableSchema) {
@@ -211,7 +199,7 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className={`cursor-pointer border-none py-2 px-4 bg-transparent rounded-full border bg-gradient-to-r from-blue-700 to-blue-500 shadow-2xl flex flex-row items-center justify-start ${
+                  className={`cursor-pointer py-2 px-4 rounded-full blue-button-w-gradient-border [text-shadow:0_0_1px_rgba(0,0,0,0.25)] shadow-2xl flex flex-row items-center justify-start ${
                     translating && "opacity-50 pointer-events-none"
                   }`}
                   disabled={translating}
@@ -264,7 +252,7 @@ export default function Home() {
               }}
             >
               <img
-                src="/switch.svg"
+                src={theme === "light" ? "/switch.svg" : "/switchDark.svg"}
                 alt="Switch"
                 className="w-12 h-12 md:w-24 md:h-24"
               />
@@ -272,7 +260,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="rounded-xl bg-white dark:bg-gray-900 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto">
+          <div className="rounded-xl bg-white dark:bg-custom-dark-gray border dark:border-gray-700 dark:bg-custom-gray shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width sm:w-auto">
             <label htmlFor="outputText" className="block mb-2">
               {isHumanToSql ? "SQL" : "Human Language"}
             </label>
@@ -288,10 +276,7 @@ export default function Home() {
                 overflow: "visible",
                 wordWrap: "break-word",
                 color: "inherit",
-                backgroundColor: isThemeDark ? "#374151" : "#fff",
-                borderColor: "#6b7280",
-                borderRadius: 4,
-                borderWidth: 1,
+                backgroundColor: isThemeDark ? "#1D1D1D" : "#F8F8F8",
               }}
               lineProps={{ style: { whiteSpace: "pre-wrap" } }}
             >
@@ -305,10 +290,16 @@ export default function Home() {
 
             <div className="flex items-center mt-5">
               <button
-                className="flex items-center justify-center space-x-4 rounded-full border bg-gradient-to-r from-gray-50 to-gray-100 text-black px-5 py-2 text-sm hover:bg-blue-500 bg-blue-600 font-medium transition"
+                className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
+                  theme === "light" ? buttonStyles.light : buttonStyles.dark
+                }`}
                 onClick={handleCopy}
+                disabled={outputText.length === 0 || isCopied}
               >
-                <img src="/copyDark.svg" alt="Copy" />
+                <img
+                  src={theme === "light" ? "/copyDark.svg" : "/copy.svg"}
+                  alt="Copy"
+                />
               </button>
               {isHumanToSql && (
                 <div className="ml-4">

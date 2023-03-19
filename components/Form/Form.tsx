@@ -75,14 +75,14 @@ export const Form = ({
     <>
       <form
         onSubmit={(event) => handleSubmit(event)}
-        className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width w-full sm:w-auto"
+        className="rounded-xl bg-white dark:bg-gray-800 border dark:border-gray-700 shadow-md px-6 pt-6 pb-8 mb-4 w-full custom-width sm:w-auto"
       >
         <div className="flex flex-col mb-4">
           <label htmlFor="inputText" className="block font-bold mb-2">
             {isHumanToSql ? "Human Language" : "SQL"}
           </label>
           <textarea
-            className="rounded-lg shadow appearance-none border-white w-full py-2 px-3 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="rounded-lg shadow appearance-none border-white w-full py-2 px-3 border text-gray-700 dark:text-gray-100 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="inputText"
             rows={3}
             placeholder={
