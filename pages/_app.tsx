@@ -5,15 +5,19 @@ import { Toaster } from "react-hot-toast";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-	return (
-		<>
-			<ThemeProvider attribute="class">
-				<Component {...pageProps} />
-				<Toaster position="bottom-center" />
-			</ThemeProvider>
-			<Analytics />
-		</>
-	);
+  return (
+    <>
+      <ThemeProvider
+        attribute="class"
+        enableSystem={true}
+        defaultTheme="system"
+      >
+        <Component {...pageProps} />
+        <Toaster position="bottom-center" />
+      </ThemeProvider>
+      <Analytics />
+    </>
+  );
 }
 
 export default MyApp;

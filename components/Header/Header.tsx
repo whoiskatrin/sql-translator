@@ -3,42 +3,28 @@ import Github from "../GitHub";
 import { useEffect, useState } from "react";
 import ThemeButton from "../ThemeButton";
 import { useTheme } from "next-themes";
+import { ChatCompletionResponseMessageRoleEnum } from "openai";
 
 export const Header = () => {
-  const [stargazers, setStargazers] = useState<string>();
-  const [forks, setForks] = useState<string>();
-  const { theme } = useTheme();
-  const svgFillColor = theme === "dark" ? "#D8D8D8" : "black";
+  const { resolvedTheme } = useTheme();
+  const svgFillColor = resolvedTheme === "dark" ? "#D8D8D8" : "black";
   const btnBgColor =
-    theme === "dark"
+    resolvedTheme === "dark"
       ? "dark-button-w-gradient-border"
       : "light-button-w-gradient-border";
-
-  useEffect(() => {
-    const formatter = Intl.NumberFormat("en", {
-      notation: "compact",
-    });
-
-    fetch("https://api.github.com/repos/whoiskatrin/sql-translator")
-      .then((response) => response.json())
-      .then((data) => {
-        setStargazers(
-          formatter.format(data.stargazers_count).toLocaleLowerCase()
-        );
-        setForks(formatter.format(data.forks_count).toLocaleLowerCase());
-      });
-  }, []);
 
   return (
     <header className="flex flex-col sm:flex-row sm:justify-between w-full pb-8 px-6">
       <Link href="/" className="flex flex-col">
         <h1 className="font-mono sm:text-xl tracking-tight">sqlTranslate</h1>
-        <p className="font-mono font-bold text-gray-600">Human Language to SQL Translator</p>
+        <p className="font-mono font-bold text-gray-600">
+          Human Language to SQL Translator
+        </p>
       </Link>
       <div className="flex items-center gap-3">
         <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
         <a
-          className="py-2 rounded-full "
+          className="py-2 rounded-full text-gray-500 dark:text-gray-400"
           href="https://github.com/whoiskatrin/sql-translator"
           rel="noopener noreferrer"
           target="_blank"
@@ -56,7 +42,7 @@ export const Header = () => {
           rel="noopener noreferrer"
           target="_blank"
         >
-          <div className="group" aria-label="Kate on Twitter">
+          <div className="group " aria-label="Kate on Twitter">
             <svg
               width="18"
               height="18"

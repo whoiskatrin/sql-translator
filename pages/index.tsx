@@ -26,8 +26,8 @@ interface IHistoryEntry {
 }
 
 export default function Home() {
-  const { theme } = useTheme();
-  const isThemeDark = theme === "dark";
+  const { resolvedTheme } = useTheme();
+  const isThemeDark = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
   const {
     translate,
@@ -227,7 +227,9 @@ export default function Home() {
                 {isHumanToSql && (
                   <button
                     className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
-                      theme === "light" ? buttonStyles.light : buttonStyles.dark
+                      resolvedTheme === "light"
+                        ? buttonStyles.light
+                        : buttonStyles.dark
                     }`}
                     onClick={() => {
                       setShowTableSchema(!showTableSchema);
@@ -303,7 +305,9 @@ export default function Home() {
               }}
             >
               <img
-                src={theme === "light" ? "/switch.svg" : "/switchDark.svg"}
+                src={
+                  resolvedTheme === "light" ? "/switch.svg" : "/switchDark.svg"
+                }
                 alt="Switch"
                 className="w-12 h-12 md:w-24 md:h-24"
               />
@@ -349,13 +353,17 @@ export default function Home() {
             <div className="flex items-center mt-3">
               <button
                 className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
-                  theme === "light" ? buttonStyles.light : buttonStyles.dark
+                  resolvedTheme === "light"
+                    ? buttonStyles.light
+                    : buttonStyles.dark
                 }`}
                 onClick={handleCopy}
                 disabled={outputText.length === 0 || isCopied}
               >
                 <img
-                  src={theme === "light" ? "/copyDark.svg" : "/copy.svg"}
+                  src={
+                    resolvedTheme === "light" ? "/copyDark.svg" : "/copy.svg"
+                  }
                   alt="Copy"
                 />
               </button>
@@ -388,7 +396,7 @@ export default function Home() {
       {history.length > 0 && (
         <button
           className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium mt-2 mb-2 px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
-            theme === "light" ? buttonStyles.light : buttonStyles.dark
+            resolvedTheme === "light" ? buttonStyles.light : buttonStyles.dark
           }`}
           onClick={() => setShowHistory(!showHistory)}
         >
