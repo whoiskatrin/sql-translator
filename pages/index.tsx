@@ -25,6 +25,12 @@ interface IHistoryEntry {
   isHumanToSql?: boolean;
 }
 
+interface ITextCopied {
+  isCopied: boolean;
+  isHistory: boolean;
+  text: string;
+}
+
 export default function Home() {
   const { resolvedTheme } = useTheme();
   const isThemeDark = resolvedTheme === "dark";
@@ -39,12 +45,12 @@ export default function Home() {
   const [inputText, setInputText] = useState("");
   const [isHumanToSql, setIsHumanToSql] = useState(true);
   const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
-  const [isCopied, setIsCopied] = useState(false);
   const [tableSchema, setTableSchema] = useState("");
   const [showTableSchema, setShowTableSchema] = useState(false);
   const [history, setHistory] = useState<IHistory[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [hasTranslated, setHasTranslated] = useState(false);
+  const [copied, setCopied] = useState<ITextCopied>();
 
   useEffect(() => {
     if (inputText && hasTranslated) {
@@ -109,11 +115,19 @@ export default function Home() {
     }
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(outputText);
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
+  const handleCopy = (text: string, isHistory: boolean) => {
+    navigator.clipboard.writeText(text);
+    setCopied({
+      isCopied: true,
+      isHistory: isHistory,
+      text: text
+    })
+     setTimeout(() => {
+      setCopied({
+        isCopied: false,
+        isHistory: isHistory,
+        text: text
+      }) 
     }, 3000);
   };
 
@@ -350,15 +364,15 @@ export default function Home() {
               </SyntaxHighlighter>
             </div>
 
-            <div className="flex items-center mt-3">
+            <div className="flex items-center mt-3 justify-between">
               <button
                 className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
                   resolvedTheme === "light"
                     ? buttonStyles.light
                     : buttonStyles.dark
                 }`}
-                onClick={handleCopy}
-                disabled={outputText.length === 0 || isCopied}
+                onClick={() => handleCopy(outputText, false)}
+                disabled={!copied?.isHistory && copied?.text === outputText || copied?.isCopied }
               >
                 <img
                   src={
@@ -367,6 +381,7 @@ export default function Home() {
                   alt="Copy"
                 />
               </button>
+           
               {isHumanToSql && (
                 <div className="flex items-center ml-4">
                   <Toggle
@@ -376,9 +391,7 @@ export default function Home() {
                 </div>
               )}
             </div>
-            {isCopied && (
-              <p className="text-black-500 text-xs">Copied to clipboard</p>
-            )}
+           
             <textarea
               className="hidden"
               id="outputText"
@@ -406,7 +419,7 @@ export default function Home() {
 
       {showHistory && (
         <>
-          {history.length > 0 &&
+          {history.length > 0 && 
             history.map((entry: IHistoryEntry, index: number) => (
               <div key={index} className="w-full mb-6">
                 <div className="flex flex-col md:flex-row w-full gap-6 bg-custom-background bg-gray-100 dark:bg-black dark:border-gray-800 border rounded-3xl from-blue-500 p-3">
@@ -495,8 +508,29 @@ export default function Home() {
                           {safeJSONParse(entry?.outputText)}
                         </div>
                       )}
+                      <div className="flex items-center mt-3 gap-1">
+                        <button
+                          className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
+                            resolvedTheme === "light"
+                            ? buttonStyles.light
+                            : buttonStyles.dark
+                            }`}
+                          onClick={() => handleCopy(safeJSONParse(entry?.outputText), true)}
+                          disabled={copied?.isHistory && JSON.stringify(copied?.text) === entry?.outputText || copied?.isCopied } 
+                        >
+                          <img
+                            src={
+                            resolvedTheme === "light" ? "/copyDark.svg" : "/copy.svg"
+                            }
+                            alt="Copy"
+                          />
+                        </button>
+                        {copied?.isHistory && copied?.isCopied && copied.text == safeJSONParse(entry?.outputText) && (
+                          <p className="text-black-500 text-xs">Copied to clipboard</p>
+                        )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
             ))}
