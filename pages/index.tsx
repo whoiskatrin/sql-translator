@@ -399,7 +399,7 @@ export default function Home() {
               <div key={index} className="w-full mb-6">
                 <div className="flex flex-col md:flex-row w-full gap-6 bg-custom-background bg-gray-100 dark:bg-black dark:border-gray-800 border rounded-3xl from-blue-500 p-3">
                   <div className="w-full">
-                    <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full">
+                    <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full h-full">
                       <label
                         htmlFor="inputText"
                         className="block mb-2 text-gray-300"
@@ -443,7 +443,7 @@ export default function Home() {
                   </div>
 
                   <div className="w-full">
-                    <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full">
+                    <div className="rounded-xl bg-white border dark:border-gray-800 dark:bg-custom-gray shadow-md p-6 w-full h-full">
                       <label
                         htmlFor="outputText"
                         className="block mb-2 text-gray-300"
