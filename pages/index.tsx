@@ -174,7 +174,9 @@ export default function Home() {
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
-                className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
+                className={`appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline ${
+                  isThemeDark ? "placeholder-dark" : ""
+                }`}
                 id="inputText"
                 rows={3}
                 placeholder={
@@ -271,7 +273,9 @@ export default function Home() {
                     </span>
                   </label>
                   <textarea
-                    className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
+                    className={`appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline ${
+                      isThemeDark ? "placeholder-dark" : ""
+                    }`}
                     id="tableSchema"
                     rows={3}
                     placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"

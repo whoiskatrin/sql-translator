@@ -11,6 +11,7 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      textColor: ['placeholder'], 
       backgroundColor: {
         "custom-gray-bg": "#F8F8F8",
         "custom-gray": "#171717",
@@ -20,6 +21,9 @@ module.exports = {
       borderColor: {
         "custom-gray": "#171717",
       },
+      placeholderColor: {
+        'dark': '#FFFFFF',
+      }
     },
   },
   plugins: [require("@tailwindcss/forms"), require("@headlessui/tailwindcss")],
