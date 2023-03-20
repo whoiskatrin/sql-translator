@@ -365,23 +365,28 @@ export default function Home() {
             </div>
 
             <div className="flex items-center mt-3 justify-between">
-              <button
-                className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
-                  resolvedTheme === "light"
-                    ? buttonStyles.light
-                    : buttonStyles.dark
-                }`}
-                onClick={() => handleCopy(outputText, false)}
-                disabled={!copied?.isHistory && copied?.text === outputText || copied?.isCopied }
-              >
-                <img
-                  src={
-                    resolvedTheme === "light" ? "/copyDark.svg" : "/copy.svg"
-                  }
-                  alt="Copy"
-                />
-              </button>
-           
+              <div className="flex items-center gap-1">
+                <button
+                  className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
+                    resolvedTheme === "light"
+                      ? buttonStyles.light
+                      : buttonStyles.dark
+                  }`}
+                  onClick={() => handleCopy(outputText, false)}
+                  disabled={!copied?.isHistory && copied?.text === outputText || copied?.isCopied }
+                >
+                  <img
+                    src={
+                      resolvedTheme === "light" ? "/copyDark.svg" : "/copy.svg"
+                    }
+                    alt="Copy"
+                  />
+                </button>
+
+                {!copied?.isHistory && copied?.isCopied && copied.text == outputText && (
+                  <p className="text-black-500 text-xs">Copied to clipboard</p>
+                )}
+              </div>
               {isHumanToSql && (
                 <div className="flex items-center ml-4">
                   <Toggle
@@ -391,7 +396,6 @@ export default function Home() {
                 </div>
               )}
             </div>
-           
             <textarea
               className="hidden"
               id="outputText"
