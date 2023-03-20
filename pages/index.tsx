@@ -160,7 +160,7 @@ export default function Home() {
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
 
-      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <div className="w-full">
           <form
             onSubmit={(event) => handleSubmit(event)}
@@ -174,7 +174,7 @@ export default function Home() {
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
-                className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                 id="inputText"
                 rows={3}
                 placeholder={
@@ -196,7 +196,7 @@ export default function Home() {
               />
               {tableSchema && showTableSchema && (
                 <div className="mt-4">
-                  <h2 className="mb-2 font-medium text-sm text-gray-500">
+                  <h2 className="mb-2 font-medium text-sm text-gray-500 dark:text-white">
                     Table Schema
                   </h2>
                   <SyntaxHighlighter
@@ -263,15 +263,15 @@ export default function Home() {
                 <div className="flex flex-col mt-2">
                   <label
                     htmlFor="tableSchema"
-                    className="block mb-2 text-sm font-medium text-gray-500"
+                    className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
                   >
                     Table Schema Input
-                    <span className="ml-2 text-blue-600 bg-blue-50 dark:bg-blue-900/50 text-xs px-[4px] py-1 rounded-md">
+                    <span className="ml-2 text-blue-600 bg-blue-50 dark:bg-gray-200 text-xs px-[4px] py-1 rounded-md">
                       Optional
                     </span>
                   </label>
                   <textarea
-                    className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                     id="tableSchema"
                     rows={3}
                     placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"
