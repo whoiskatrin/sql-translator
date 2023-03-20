@@ -21,10 +21,10 @@ export const Header = () => {
           Human Language to SQL Translator
         </p>
       </Link>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 pt-4">
         <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
         <a
-          className="py-2 rounded-full text-gray-500 dark:text-gray-400"
+          className="rounded-full text-gray-500 dark:text-gray-400"
           href="https://github.com/whoiskatrin/sql-translator"
           rel="noopener noreferrer"
           target="_blank"
