@@ -1,10 +1,8 @@
 import fetch from "isomorphic-unfetch";
 
 const translateToSQL = async (query, apiKey, tableSchema = "") => {
-  let prompt = `Translate this natural language query into SQL:\n\n"${query}"\n\nSQL Query:`;
-  if (tableSchema) {
-    prompt = `Translate this natural language query into SQL:\n\n"${query}"\n\nUse this table schema:\n\n${tableSchema}\n\n${prompt}`;
-  }
+  const prompt = `Translate this natural language query into SQL:\n\n"${query}"\n\n${tableSchema ? `Use this table schema:\n\n${tableSchema}\n\n` : ''}SQL Query:`;
+  
   console.log(prompt);
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
