@@ -329,7 +329,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-full">
-          <div className="flex flex-col rounded-xl bg-white  border dark:border-gray-700 dark:bg-custom-gray p-3 h-full w-full custom-width sm:w-auto">
+          <div className="flex flex-col rounded-xl bg-white container-w-gradient-border dark:dark-container-w-gradient-border dark:bg-custom-gray p-3 h-full w-full custom-width sm:w-auto">
             <div className="flex flex-col flex-1">
               <label
                 htmlFor="outputText"
