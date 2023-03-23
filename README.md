@@ -28,6 +28,8 @@ You can press the 'reverse' button to give input as Natural Language and get SQL
 
 ## Installation
 
+### Local Development Environment
+
 1. Clone the repository:
 
     ```bash
@@ -40,17 +42,43 @@ You can press the 'reverse' button to give input as Natural Language and get SQL
     cd sql-translator
     npm install
     ```
-3. Input your OPENAI API key in the .env file, you can get your API key [here](https://beta.openai.com/account/api-keys):
 
+3. Build the application:
+
+    ```bash
+    npm run build
+    ```
+
+4. Input your OPENAI API key in the .env file, you can get your API key [here](https://beta.openai.com/account/api-keys):
 
     ```bash
     OPENAI_API_KEY=$YOUR_API_KEY
     ```
 
-4. Start the development server:
+5. Start the development server:
 
     ```bash
     npm start
+    ```
+
+### Docker Compose
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/whoiskatrin/sql-translator.git
+    ```
+
+2. Input your OPENAI API key in the .env.production file, you can get your API key [here](https://beta.openai.com/account/api-keys):
+
+    ```bash
+    OPENAI_API_KEY=$YOUR_API_KEY
+    ```
+
+3. Start the development server:
+
+    ```bash
+    docker-compose up
     ```
 
 ## Usage
