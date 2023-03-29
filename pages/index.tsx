@@ -30,8 +30,13 @@ interface ITextCopied {
   isHistory: boolean;
   text: string;
 }
+interface prev{
+  previnput: string;
+  prevoutput: string;
+}
 
 export default function Home() {
+  
   const { resolvedTheme } = useTheme();
   const isThemeDark = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
@@ -43,6 +48,7 @@ export default function Home() {
     translationError,
   } = useTranslate();
   const [inputText, setInputText] = useState("");
+  const [prevquery, setPrevquery] = useState<prev[]>([]);
   const [isHumanToSql, setIsHumanToSql] = useState(true);
   const [isOutputTextUpperCase, setIsOutputTextUpperCase] = useState(false);
   const [tableSchema, setTableSchema] = useState("");
@@ -95,8 +101,13 @@ export default function Home() {
   };
 
   const addHistoryEntry = (entry: IHistory) => {
-    if (history.some(({ inputText }) => inputText === entry.inputText)) return;
-    setHistory([...history, entry]);
+    if (history.some(({ inputText }) => inputText !== entry.inputText) && (prevquery.some(({ previnput }) => previnput !== entry.inputText)) && (prevquery.some(({ prevoutput }) => prevoutput !== entry.outputText))) {
+      setHistory([...history, entry]);
+      
+    }
+    const newhistory: prev = {previnput : entry.inputText, prevoutput : entry.outputText};
+    setPrevquery([...prevquery,newhistory]);
+    
   };
 
   function safeJSONParse(str: string) {
