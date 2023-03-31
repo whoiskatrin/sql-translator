@@ -101,7 +101,16 @@ export default function Home() {
   };
 
   const addHistoryEntry = (entry: IHistory) => {
-    if (history.some(({ inputText }) => inputText !== entry.inputText) && (prevquery.some(({ previnput }) => previnput !== entry.inputText)) && (prevquery.some(({ prevoutput }) => prevoutput !== entry.outputText))) {
+    if (
+      !history.some(
+        ({ inputText, outputText }) =>
+          inputText === entry.inputText && outputText === entry.outputText
+      ) &&
+      !prevquery.some(
+        ({ previnput, prevoutput }) =>
+          previnput === entry.inputText && prevoutput === entry.outputText
+      )
+    ) {
       setHistory([...history, entry]);
       
     }
