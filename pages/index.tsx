@@ -152,7 +152,7 @@ export default function Home() {
   };
 
   const buttonStyles = {
-    light: "light-button-w-gradient-border text-black",
+    light: "light-button-w-gradient-border text-red",
     dark: "dark-button-w-gradient-border text-[#D8D8D8]",
   };
 
@@ -194,7 +194,7 @@ export default function Home() {
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
 
-      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
+      <div className="flex flex-col md:flex-row w-full gap-6 bg-[#DADADA] dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <div className="w-full">
           <form
             onSubmit={(event) => handleSubmit(event)}
@@ -203,16 +203,17 @@ export default function Home() {
             <div className="flex flex-col h-full">
               <label
                 htmlFor="inputText"
-                className="block font-medium mb-2 text-gray-700 dark:text-gray-200"
+                className="block font-medium mb-3 text-black dark:text-gray-200"
               >
                 {isHumanToSql ? "Human Language" : "SQL"}
               </label>
               <textarea
-                className={`appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline ${
+                className={`appearance-none border-0 rounded-lg w-full py-2 px-3 bg-[#EDEDED] dark:bg-custom-dark-gray text-black dark:text-white leading-tight focus:outline-none focus:shadow-outline ${
                   isThemeDark ? "placeholder-dark" : ""
                 }`}
                 id="inputText"
-                rows={3}
+                rows={2}
+                style={{ minHeight: '4rem' }}
                 placeholder={
                   isHumanToSql
                     ? "e.g. show me all the cars that are red"
@@ -232,7 +233,7 @@ export default function Home() {
               />
               {tableSchema && showTableSchema && (
                 <div className="mt-4">
-                  <h2 className="mb-2 font-medium text-sm text-gray-500 dark:text-white">
+                  <h2 className="mb-2 font-medium text-sm text-black dark:text-white">
                     Table Schema
                   </h2>
                   <SyntaxHighlighter
@@ -240,7 +241,7 @@ export default function Home() {
                     style={isThemeDark ? dracula : vs}
                     wrapLines={true}
                     showLineNumbers={true}
-                    lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+                    lineNumberStyle={{ color: isThemeDark ? "gray" : "black" }}
                     customStyle={{
                       maxHeight: "none",
                       height: "auto",
@@ -257,14 +258,10 @@ export default function Home() {
                 </div>
               )}
 
-              <div className="flex items-center justify-between my-3 last:mb-0 space-x-10">
+              <div className="flex items-center justify-between my-3 ml-1 last:mb-0 space-x-10">
                 {isHumanToSql && (
                   <button
-                    className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
-                      resolvedTheme === "light"
-                        ? buttonStyles.light
-                        : buttonStyles.dark
-                    }`}
+                    className={isThemeDark ? `rounded-full flex items-center justify-center space-x-4 text-sm font-medium px-3 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)]${!showTableSchema ? `text-white bg-green-600 ` : `text-white bg-red-600 border-2 border-white`}`: `rounded-full flex items-center justify-center space-x-4 text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${!showTableSchema ? `text-green-500 bg-green-100` : `text-red-500 bg-red-100`}`}
                     onClick={() => {
                       setShowTableSchema(!showTableSchema);
                       if (!showTableSchema) {
@@ -301,19 +298,23 @@ export default function Home() {
                 <div className="flex flex-col mt-2">
                   <label
                     htmlFor="tableSchema"
-                    className="block mb-2 text-sm font-medium text-gray-500 dark:text-white"
+                    className="block mb-2 pb-4 font-medium "
                   >
+                    
+                    <span className={isThemeDark ? `ml-1 dark:bg-yellow-500 dark:text-white text-sm px-2 py-1 ml-1 mr-1 rounded-md` : `ml-1 text-yellow-500 bg-yellow-100 text-sm px-2 py-1 mr-1 rounded-md`}>
                     Table Schema Input
-                    <span className="ml-2 text-blue-600 bg-blue-50 dark:bg-gray-200 text-xs px-[4px] py-1 rounded-md">
+                    </span>
+                    <span className={isThemeDark ? `ml-3 dark:bg-blue-700 dark:text-white text-xs px-[4px] py-1 rounded-md` : `ml-3 text-blue-700 bg-blue-100 text-xs px-[4px] py-1 rounded-md`}>
                       Optional
                     </span>
                   </label>
                   <textarea
-                    className={`appearance-none border-0 rounded-lg w-full py-2 px-3 bg-custom-gray-bg dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline ${
+                    className={`appearance-none border-0 rounded-lg w-full py-2 px-3 bg-[#EDEDED] dark:bg-custom-dark-gray text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline ${
                       isThemeDark ? "placeholder-dark" : ""
                     }`}
                     id="tableSchema"
-                    rows={3}
+                    rows={2}
+                    style={{ minHeight: '4rem' }}
                     placeholder="e.g. CREATE TABLE cars (id INT, make TEXT, model TEXT, year INT, color TEXT)"
                     value={tableSchema}
                     autoFocus
@@ -362,14 +363,14 @@ export default function Home() {
                 style={isThemeDark ? dracula : vs}
                 wrapLines={true}
                 showLineNumbers={true}
-                lineNumberStyle={{ color: isThemeDark ? "gray" : "#ccc" }}
+                lineNumberStyle={{ color: isThemeDark ? "gray" : "black" }}
                 customStyle={{
                   maxHeight: "none",
                   height: "auto",
                   overflow: "visible",
                   wordWrap: "break-word",
                   color: "inherit",
-                  backgroundColor: isThemeDark ? "#1D1D1D" : "#F8F8F8",
+                  backgroundColor: isThemeDark ? "#1D1D1D" : "#EDEDED",
                   flex: 1,
                   borderRadius: "0.5rem",
                 }}
