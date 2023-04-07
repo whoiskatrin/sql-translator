@@ -1,9 +1,6 @@
 import fetch from "isomorphic-unfetch";
 
-const translateToSQL = async (query, apiKey, tableSchema = "") => {
-  const prompt = `Translate this natural language query into SQL without changing the case of the entries given by me:\n\n"${query}"\n\n${tableSchema ? `Use this table schema:\n\n${tableSchema}\n\n` : ''}SQL Query:`;
-  
-  console.log(prompt);
+const translateToHuman = async (query:any, apiKey:any) => {
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
@@ -11,7 +8,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
       Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      prompt,
+      prompt: `Translate this SQL query into natural language:\n\n"${query}"\n\nNatural language query:`,
       temperature: 0.5,
       max_tokens: 2048,
       n: 1,
@@ -32,4 +29,4 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
   return data.choices[0].text.trim();
 };
 
-export default translateToSQL;
+export default translateToHuman;
