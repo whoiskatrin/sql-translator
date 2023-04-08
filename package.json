@@ -22,7 +22,7 @@
     "isomorphic-unfetch": "^4.0.2",
     "next": "latest",
     "next-themes": "^0.2.1",
-    "node-fetch-with-proxy": "^0.1.6",
+    "node-fetch": "^3.3.1",
     "openai": "^3.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -44,14 +44,11 @@
     "@typescript-eslint/parser": "^5.55.0",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.36.0",
-    "fetch-with-proxy": "^3.0.1",
-    "https-proxy-agent": "^5.0.1",
     "jest": "^29.5.0",
     "postcss": "^8.4.18",
     "supertest": "^6.3.3",
     "tailwindcss": "^3.2.4",
     "ts-jest": "^29.1.0",
-    "typescript": "4.9.4",
-    "node-fetch-with-proxy": "^0.1.6"
+    "typescript": "4.9.4"
   }
 }
