@@ -92,9 +92,16 @@ Once the development server is running, you can access the application by naviga
 
 Enter a natural language query in the input box and click "Translate" to generate the corresponding SQL code. The generated SQL code will be displayed in the output box.
 
-## 🖥️ Unit test
+## 💯 Unit test
 
 Tests are defined in the test folder in this project. Use NPM to install the Jest test framework and run unit tests.
+
+1. Input your OPENAI API key in the jest.config.js file
+    
+    ```bash
+    OPENAI_API_KEY=$YOUR_API_KEY
+    ```
+2. Run the test cases
 
     ```bash
     cd sql-translator
