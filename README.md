@@ -96,12 +96,12 @@ Enter a natural language query in the input box and click "Translate" to generat
 
 Tests are defined in the test folder in this project. Use NPM to install the Jest test framework and run unit tests.
 
-1. Input your OPENAI API key in the jest.config.js file
+1. Input your OPENAI API key in the jest.config.js file:
     
     ```bash
     OPENAI_API_KEY=$YOUR_API_KEY
     ```
-2. Run the test cases
+2. Run the test cases:
 
     ```bash
     cd sql-translator
