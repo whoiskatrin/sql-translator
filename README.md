@@ -92,6 +92,16 @@ Once the development server is running, you can access the application by naviga
 
 Enter a natural language query in the input box and click "Translate" to generate the corresponding SQL code. The generated SQL code will be displayed in the output box.
 
+## 🖥️ Unit test
+
+Tests are defined in the test folder in this project. Use NPM to install the Jest test framework and run unit tests.
+
+    ```bash
+    cd sql-translator
+    npm install
+    npm test
+    ```
+
 ## 👥 Contributing
 
 Contributions to SQL Translator are welcome and encouraged! To contribute, please follow these steps:
