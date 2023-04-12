@@ -23,7 +23,7 @@ class MyDocument extends Document {
             content="Translate human language to SQL queries in seconds."
           />
         </Head>
-        <body className="dark:bg-black bg-gray-100 text-gray-800 dark:text-white font-sans">
+        <body className="dark:bg-black bg-gray-100 text-gray-800 dark:text-white font-sans transition-colors">
           <div className="max-w-4xl mx-auto px-4">
             <Main />
           </div>
