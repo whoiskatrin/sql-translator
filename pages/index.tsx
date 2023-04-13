@@ -94,10 +94,9 @@ export default function Home() {
   }
 
   const isValidTableSchema = (text: string) => {
-    console.log(text);
     const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
     const regex = new RegExp(pattern);
-    return regex.test(text);
+      return regex.test(text.trim());
   };
 
   const addHistoryEntry = (entry: IHistory) => {
@@ -260,6 +259,7 @@ export default function Home() {
               <div className="flex items-center justify-between my-3 last:mb-0 space-x-10">
                 {isHumanToSql && (
                   <button
+                    type='button'
                     className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
                       resolvedTheme === "light"
                         ? buttonStyles.light
