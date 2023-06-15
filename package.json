@@ -13,7 +13,7 @@
     "@headlessui/tailwindcss": "^0.1.2",
     "@heroicons/react": "^2.0.13",
     "@tailwindcss/forms": "^0.5.3",
-    "@vercel/analytics": "^0.1.8",
+    "@vercel/analytics": "^0.1.11",
     "ajv": "^8.12.0",
     "eventsource-parser": "^0.0.5",
     "express-rate-limit": "^6.7.0",
@@ -29,7 +29,8 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-use-measure": "^2.1.1",
     "redis": "^4.6.5",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "vercel": "^30.2.2"
   },
   "devDependencies": {
     "@types/node": "18.11.3",
