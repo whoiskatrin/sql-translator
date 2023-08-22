@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { Button } from "@tremor/react";
 const SyntaxHighlighter = dynamic(() => import("react-syntax-highlighter"));
 import { vs, dracula } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 import Head from "next/head";
@@ -11,6 +12,7 @@ import LoadingDots from "../components/LoadingDots";
 import { useTheme } from "next-themes";
 import Toggle from "../components/Toggle";
 import { Header } from "../components/Header/Header";
+import { GreenOrb, OrangeOrb, WhiteOrb } from "../components/atoms/Orbs";
 interface IHistory {
   inputText: string;
   outputText: string;
@@ -30,13 +32,12 @@ interface ITextCopied {
   isHistory: boolean;
   text: string;
 }
-interface prev{
+interface prev {
   previnput: string;
   prevoutput: string;
 }
 
 export default function Home() {
-  
   const { resolvedTheme } = useTheme();
   const isThemeDark = resolvedTheme === "dark";
   const [mounted, setMounted] = useState(false);
@@ -96,7 +97,7 @@ export default function Home() {
   const isValidTableSchema = (text: string) => {
     const pattern = /^CREATE\s+TABLE\s+\w+\s*\((\s*.+\s*,?\s*)+\);?$/i;
     const regex = new RegExp(pattern);
-      return regex.test(text.trim());
+    return regex.test(text.trim());
   };
 
   const addHistoryEntry = (entry: IHistory) => {
@@ -111,11 +112,12 @@ export default function Home() {
       )
     ) {
       setHistory([...history, entry]);
-      
     }
-    const newhistory: prev = {previnput : entry.inputText, prevoutput : entry.outputText};
-    setPrevquery([...prevquery,newhistory]);
-    
+    const newhistory: prev = {
+      previnput: entry.inputText,
+      prevoutput: entry.outputText,
+    };
+    setPrevquery([...prevquery, newhistory]);
   };
 
   function safeJSONParse(str: string) {
@@ -139,14 +141,14 @@ export default function Home() {
     setCopied({
       isCopied: true,
       isHistory: isHistory,
-      text: text
-    })
-     setTimeout(() => {
+      text: text,
+    });
+    setTimeout(() => {
       setCopied({
         isCopied: false,
         isHistory: isHistory,
-        text: text
-      }) 
+        text: text,
+      });
     }, 3000);
   };
 
@@ -192,6 +194,29 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
+      <a
+        href="https://www.usechannel.com/?utm_source=chart-gpt&utm_medium=website-advert&utm_campaign=july-sponsorshiphttps://www.usechannel.com/?utm_source=chart-gpt&utm_medium=website-advert&utm_campaign=july-sponsorship"
+        target="_blank"
+      >
+        <div className="w-full flex flex-col md:flex-row gap-3 items-center md:justify-between justify-center p-4 border border-zinc-200 dark:border-zinc-900 dark:bg-black bg-white mb-2 rounded-md hover:saturate-150 transition-all relative overflow-hidden">
+          <WhiteOrb />
+          <GreenOrb />
+          <OrangeOrb />
+          <p className="md:text-center text-lg">
+            Connect your{" "}
+            <span className="font-bold text-orange-500">database</span> and{" "}
+            <wbr />
+            answer your{" "}
+            <span className="font-bold text-orange-500">
+              business questions
+            </span>
+            .
+          </p>
+          <Button className="text-black dark:text-white" color="orange">
+            Ask a question
+          </Button>
+        </div>
+      </a>
 
       <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <div className="w-full">
@@ -259,7 +284,7 @@ export default function Home() {
               <div className="flex items-center justify-between my-3 last:mb-0 space-x-10">
                 {isHumanToSql && (
                   <button
-                    type='button'
+                    type="button"
                     className={`rounded-full flex items-center justify-center space-x-4 border text-sm font-medium px-4 py-2 [text-shadow:0_0_1px_rgba(0,0,0,0.25)] ${
                       resolvedTheme === "light"
                         ? buttonStyles.light
@@ -393,7 +418,10 @@ export default function Home() {
                       : buttonStyles.dark
                   }`}
                   onClick={() => handleCopy(outputText, false)}
-                  disabled={!copied?.isHistory && copied?.text === outputText || copied?.isCopied }
+                  disabled={
+                    (!copied?.isHistory && copied?.text === outputText) ||
+                    copied?.isCopied
+                  }
                 >
                   <img
                     src={
@@ -403,9 +431,13 @@ export default function Home() {
                   />
                 </button>
 
-                {!copied?.isHistory && copied?.isCopied && copied.text == outputText && (
-                  <p className="text-black-500 text-xs">Copied to clipboard</p>
-                )}
+                {!copied?.isHistory &&
+                  copied?.isCopied &&
+                  copied.text == outputText && (
+                    <p className="text-black-500 text-xs">
+                      Copied to clipboard
+                    </p>
+                  )}
               </div>
               {isHumanToSql && (
                 <div className="flex items-center ml-4">
@@ -443,7 +475,7 @@ export default function Home() {
 
       {showHistory && (
         <>
-          {history.length > 0 && 
+          {history.length > 0 &&
             history.map((entry: IHistoryEntry, index: number) => (
               <div key={index} className="w-full mb-6">
                 <div className="flex flex-col md:flex-row w-full gap-6 bg-custom-background bg-gray-100 dark:bg-black dark:border-gray-800 border rounded-3xl from-blue-500 p-3">
@@ -536,25 +568,38 @@ export default function Home() {
                         <button
                           className={`flex items-center disabled:pointer-events-none disabled:opacity-70 justify-center space-x-4 rounded-full px-5 py-2 text-sm font-medium transition ${
                             resolvedTheme === "light"
-                            ? buttonStyles.light
-                            : buttonStyles.dark
-                            }`}
-                          onClick={() => handleCopy(safeJSONParse(entry?.outputText), true)}
-                          disabled={copied?.isHistory && JSON.stringify(copied?.text) === entry?.outputText || copied?.isCopied } 
+                              ? buttonStyles.light
+                              : buttonStyles.dark
+                          }`}
+                          onClick={() =>
+                            handleCopy(safeJSONParse(entry?.outputText), true)
+                          }
+                          disabled={
+                            (copied?.isHistory &&
+                              JSON.stringify(copied?.text) ===
+                                entry?.outputText) ||
+                            copied?.isCopied
+                          }
                         >
                           <img
                             src={
-                            resolvedTheme === "light" ? "/copyDark.svg" : "/copy.svg"
+                              resolvedTheme === "light"
+                                ? "/copyDark.svg"
+                                : "/copy.svg"
                             }
                             alt="Copy"
                           />
                         </button>
-                        {copied?.isHistory && copied?.isCopied && copied.text == safeJSONParse(entry?.outputText) && (
-                          <p className="text-black-500 text-xs">Copied to clipboard</p>
-                        )}
-                        </div>
+                        {copied?.isHistory &&
+                          copied?.isCopied &&
+                          copied.text == safeJSONParse(entry?.outputText) && (
+                            <p className="text-black-500 text-xs">
+                              Copied to clipboard
+                            </p>
+                          )}
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
             ))}
