@@ -26,9 +26,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
-.env
-.env.development
-.env*.local
+# .env
+# .env.development
+# .env*.local
 
 # vercel
 .vercel
@@ -39,3 +39,6 @@ next-env.d.ts
 
 # idea
 .idea
+
+#history
+.history
