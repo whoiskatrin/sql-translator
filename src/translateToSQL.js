@@ -1,10 +1,14 @@
 import fetch from "isomorphic-unfetch";
 
 const translateToSQL = async (query, apiKey, tableSchema = "") => {
-  const prompt = `Translate this natural language query into SQL without changing the case of the entries given by me:\n\n"${query}"\n\n${
-    tableSchema ? `Use this table schema:\n\n${tableSchema}\n\n` : ""
-  }SQL Query:`;
 
+  // Validate inputs
+  if (!query || !apiKey) {
+    throw new Error("Missing query or API key.");
+  }
+
+  const prompt = `Translate this natural language query into SQL without changing the case of the entries given by me:\n\n"${query}"\n\n${tableSchema ? `Use this table schema:\n\n${tableSchema}\n\n` : ''}SQL Query:`;
+  
   console.log(prompt);
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
@@ -27,7 +31,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
 
   const data = await response.json();
   if (!response.ok) {
-    console.log(response);
+    console.error("API Error:", response.status, data);
     throw new Error(data.error || "Error translating to SQL.");
   }
 

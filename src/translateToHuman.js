@@ -1,6 +1,11 @@
 import fetch from "isomorphic-unfetch";
 
 const translateToHuman = async (query, apiKey) => {
+  // Validate inputs
+  if (!query || !apiKey) {
+    throw new Error("Missing query or API key.");
+  }
+
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
@@ -22,8 +27,8 @@ const translateToHuman = async (query, apiKey) => {
 
   const data = await response.json();
   if (!response.ok) {
-    console.log(response);
-    throw new Error(data.error || "Error translating to SQL.");
+    console.error("API Error:", response.status, data);
+    throw new Error(data.error || "Error translating to human language.");
   }
 
   return data.choices[0].text.trim();
