@@ -1,6 +1,7 @@
 import fetch from "isomorphic-unfetch";
 
 const translateToSQL = async (query, apiKey, tableSchema = "") => {
+
   // Validate inputs
   if (!query || !apiKey) {
     throw new Error("Missing query or API key.");
@@ -21,7 +22,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
       max_tokens: 2048,
       n: 1,
       stop: "\\n",
-      model: "text-davinci-003",
+      model: "gpt-3.5-turbo-instruct",
       frequency_penalty: 0.5,
       presence_penalty: 0.5,
       logprobs: 10,
