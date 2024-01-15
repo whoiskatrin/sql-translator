@@ -194,29 +194,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeButton className="absolute top-2.5 right-2.5 text-gray-500 dark:text-gray-400 focus:outline-none hover:scale-125 transition" />
-      <a
-        href="https://www.usechannel.com/?utm_source=chart-gpt&utm_medium=website-advert&utm_campaign=july-sponsorshiphttps://www.usechannel.com/?utm_source=chart-gpt&utm_medium=website-advert&utm_campaign=july-sponsorship"
-        target="_blank"
-      >
-        <div className="w-full flex flex-col md:flex-row gap-3 items-center md:justify-between justify-center p-4 border border-zinc-200 dark:border-zinc-900 dark:bg-black bg-white mb-2 rounded-md hover:saturate-150 transition-all relative overflow-hidden">
-          <WhiteOrb />
-          <GreenOrb />
-          <OrangeOrb />
-          <p className="md:text-center text-lg">
-            Connect your{" "}
-            <span className="font-bold text-orange-500">database</span> and{" "}
-            <wbr />
-            answer your{" "}
-            <span className="font-bold text-orange-500">
-              business questions
-            </span>
-            .
-          </p>
-          <Button className="text-black dark:text-white" color="orange">
-            Ask a question
-          </Button>
-        </div>
-      </a>
 
       <div className="flex flex-col md:flex-row w-full gap-6 bg-[#EEEEEE] dark:text-white dark:bg-black dark:border dark:border-white/20 rounded-2xl p-2">
         <div className="w-full">
