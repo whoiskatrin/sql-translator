@@ -60,6 +60,13 @@ You can press the 'reverse' button to give input as Natural Language and get SQL
     OPENAI_API_KEY=$YOUR_API_KEY
     ```
 
+    Optionally, if you would like to point to a custom OPENAI compatible API endpoint and model name, you can input it in the `.env` file.  For example, if you would like to run locally using Ollama using `llama3.2` model, you could add
+
+    ```bash
+    OPENAI_API_ENDPOINT_URL=http://localhost:11434
+    MODEL_ID=llama3.2
+    ```
+
 5. Start the development server:
 
     ```bash
@@ -74,10 +81,17 @@ You can press the 'reverse' button to give input as Natural Language and get SQL
     git clone https://github.com/whoiskatrin/sql-translator.git
     ```
 
-2. Input your OPENAI API key in the .env.production file, you can get your API key [here](https://beta.openai.com/account/api-keys):
+2. Input your OPENAI API key in the `.env.production` file, you can get your API key [here](https://beta.openai.com/account/api-keys):
 
     ```bash
     OPENAI_API_KEY=$YOUR_API_KEY
+    ```
+
+    Optionally, if you would like to point to a custom OPENAI compatible API endpoint and model name, you can input it in the `.env.production` file.  For example, if you would like to run locally using Ollama using `llama3.2` model, you could add
+
+    ```bash
+    OPENAI_API_ENDPOINT_URL=http://host.docker.internal:11434
+    MODEL_ID=llama3.2
     ```
 
 3. Start the development server:

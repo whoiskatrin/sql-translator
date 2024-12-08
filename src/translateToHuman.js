@@ -1,12 +1,12 @@
 import fetch from "isomorphic-unfetch";
 
-const translateToHuman = async (query, apiKey) => {
+const translateToHuman = async (query, apiEndPointURL, apiKey) => {
   // Validate inputs
   if (!query || !apiKey) {
     throw new Error("Missing query or API key.");
   }
 
-  const response = await fetch("https://api.openai.com/v1/completions", {
+  const response = await fetch(`${apiEndPointURL}/v1/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +18,7 @@ const translateToHuman = async (query, apiKey) => {
       max_tokens: 2048,
       n: 1,
       stop: "\\n",
-      model: "text-davinci-003",
+      model: process.env.MODEL_ID || "text-davinci-003",
       frequency_penalty: 0.5,
       presence_penalty: 0.5,
       logprobs: 10,

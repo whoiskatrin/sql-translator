@@ -15,6 +15,7 @@ export default async function handler(
   try {
     const result = await translateToSQL(
       inputText,
+      process.env.OPENAI_API_ENDPOINT_URL || "https://api.openai.com",
       process.env.OPENAI_API_KEY,
       tableSchema
     );

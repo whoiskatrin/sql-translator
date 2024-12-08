@@ -19,6 +19,7 @@ export default async function handler(
   try {
     const outputText = await translateToHuman(
       inputText,
+      process.env.OPENAI_API_ENDPOINT_URL || "https://api.openai.com", 
       process.env.OPENAI_API_KEY
     );
     res.status(200).json({ outputText });

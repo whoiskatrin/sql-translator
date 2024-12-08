@@ -1,6 +1,6 @@
 import fetch from "isomorphic-unfetch";
 
-const translateToSQL = async (query, apiKey, tableSchema = "") => {
+const translateToSQL = async (query, apiEndPointURL, apiKey, tableSchema = "") => {
 
   // Validate inputs
   if (!query || !apiKey) {
@@ -10,7 +10,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
   const prompt = `Translate this natural language query into SQL without changing the case of the entries given by me:\n\n"${query}"\n\n${tableSchema ? `Use this table schema:\n\n${tableSchema}\n\n` : ''}SQL Query:`;
   
   console.log(prompt);
-  const response = await fetch("https://api.openai.com/v1/completions", {
+  const response = await fetch(`${apiEndPointURL}/v1/completions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +22,7 @@ const translateToSQL = async (query, apiKey, tableSchema = "") => {
       max_tokens: 2048,
       n: 1,
       stop: "\\n",
-      model: "gpt-3.5-turbo-instruct",
+      model: process.env.MODEL_ID || "gpt-3.5-turbo-instruct",
       frequency_penalty: 0.5,
       presence_penalty: 0.5,
       logprobs: 10,
