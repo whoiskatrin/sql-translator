@@ -1,0 +1,14 @@
+name = "nextjs-migration"
+compatibility_date = "2023-05-18"
+
+[build]
+command = "npm run build"
+publish = "dist"
+
+# Environment variables
+[vars]
+NODE_ENV = "production"
+
+# Pages configuration
+[[pages_build_output_dir]]
+value = "dist"
